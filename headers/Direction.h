@@ -22,7 +22,7 @@ inline string directionString(Direction direction) {
         case Direction::NORTH:
             return "NORTH";
         case Direction::SOUTH:
-            return "South";
+            return "SOUTH";
         case Direction::EAST:
             return "EAST";
         case Direction::WEST:

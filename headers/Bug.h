@@ -11,7 +11,7 @@
 
 using namespace std;
 
-struct Pair {
+struct Pair{
 
     int x; int y;
 
@@ -21,8 +21,8 @@ struct Pair {
         y = yP;
     }
 
-    static int getX() ;
-    static int getY() ;
+    static int getX() ; //const
+    static int getY() ; //const
 
     void setX(int xS)
     {
@@ -36,16 +36,27 @@ struct Pair {
 };
 
 class Bug {
-    int id;
-    pair<int, int> position;
-//    Pair position = Pair(0,0);
-    Direction direction;
-    bool isAlive;
-    int size;
-    list<pair<int,int>> path;
-//    list<Pair> path;
+    //    list<pair<int,int>> path;
+    list<Pair> path;
     virtual void move();
     bool isWayBlocked();
+
+public:
+    int id;
+//    pair<int, int> position;
+    Pair position = Pair(0,0);
+    Direction direction;
+    int size;
+    bool isAlive;
+
+
+    int getID() const;
+    Direction getDirection() const;
+    int getSize() const;
+    bool getIsAlive() const;
+//    virtual getMove(); is it a field?
+    bool getIsWayBlocked() const;
+
 };
 
 

@@ -8,4 +8,6 @@ add_executable(CPP_Bug_Project_RF main.cpp
         headers/Bug.h
         headers/Direction.h
         headers/Crawler.h
-        sources/Crawler.cpp)
+        sources/Crawler.cpp
+        sources/Hopper.cpp
+        headers/Hopper.h)

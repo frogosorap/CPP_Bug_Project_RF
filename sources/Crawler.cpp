@@ -21,6 +21,44 @@ Crawler::Crawler(int id, int x, int y, Direction dir, int size) {
 }
 
 void Crawler::move() {
-
+    if(getIsWayBlocked())
+    {
+        int randDirection = rand()%4;
+        switch (randDirection)
+        {
+            case 0:
+                setDirection(Direction::NORTH);
+                break;
+            case 1:
+                setDirection(Direction::SOUTH);
+                break;
+            case 2:
+                setDirection(Direction::EAST);
+                break;
+            case 3:
+                setDirection(Direction::WEST);
+                break;
+        }
+    }
+    else
+    {
+        Pair newPos = getPosition();
+        switch(getDirection())
+        {
+            case Direction::NORTH:
+                newPos.setY(newPos.getY() - 1); // One box up
+                break;
+            case Direction::SOUTH:
+                newPos.setY(newPos.getY() + 1); // One box down
+                break;
+            case Direction::EAST:
+                newPos.setX(newPos.getX() + 1); // One box right
+                break;
+            case Direction::WEST:
+                newPos.setX(newPos.getX() - 1); // One box left
+                break;
+        }
+        setPosition(newPos); // Update the new position newPos
+    }
 }
 

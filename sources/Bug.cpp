@@ -1,8 +1,9 @@
 //
 // Created by Raphael Frogoso on 11/04/2024.
 //
+#include <iostream>
 #include "../headers/Bug.h"
-
+using namespace std;
 
 int Bug::getID() const{
     return id;

@@ -8,20 +8,20 @@ int Bug::getID() const{
     return id;
 }
 
-int Pair::getX() {
-    return 0;
+int Pair::getX() const{
+    return x;
 }
 
-int Pair::getY() {
-    return 0;
+int Pair::getY() const{
+    return y;
 }
 
 const Pair &Bug::getPosition() const {
     return position;
 }
 
-bool Bug::isWayBlocked() {
-    return false;
+bool Bug::getIsWayBlocked() const {
+    return isWayBlocked();
 }
 
 void Bug::move() {
@@ -33,23 +33,20 @@ Direction Bug::getDirection() const {
 }
 
 int Bug::getSize() const {
-    return 0;
+    return size;
 }
 
 bool Bug::getIsAlive() const {
-    return false;
+    return isAlive;
 }
 
-bool Bug::getIsWayBlocked() const {
-    return false;
-}
 
 const list<Pair> &Bug::getPath() const {
     return path;
 }
 
-void Bug::setID(int id) {
-    Bug::id = id;
+void Bug::setID(int Id) {
+    Bug::id = Id;
 }
 
 void Bug::setDirection(Direction dir) {
@@ -68,7 +65,38 @@ void Bug::setPosition(const Pair &position) {
     Bug::position = position;
 }
 
+bool Bug::isWayBlocked() const {
+    // Get current position of the bug
+    Pair currentPosition = getPosition();
 
+    // Check if current position is out of bounds based on direction
+    switch (getDirection())
+    {
+        case Direction::NORTH:
+            if (currentPosition.getY() <= 0)
+            {
+                return true; // If bug is facing north, it checks if its current Y coordinate is less than or equal to 0.
+            }
+            break;
+        case Direction::SOUTH:
+            if (currentPosition.getY() >= 10)
+            {
+                return true; // // If bug is facing north, it checks if its current Y coordinate is less than or equal to 10.
+            }
+            break;
+        case Direction::EAST:
+            if (currentPosition.getX() >= 10)
+            {
+                return true; // If bug is facing north, it checks if its current X coordinate is less than or equal to 10.
+            }
+            break;
+        case Direction::WEST:
+            if (currentPosition.getX() <= 0)
+            {
+                return true; // If bug is facing north, it checks if its current X coordinate is less than or equal to 0.
+            }
+            break;
+    }
 
-
-
+    return false; // If bug path is not blocked
+}

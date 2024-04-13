@@ -22,8 +22,8 @@ struct Pair{
     }
     // Pair Getters
 
-    static int getX() ; //const
-    static int getY() ; //const
+    int getX() const;
+    int getY() const;
 
     // Pair Setters
 
@@ -42,7 +42,7 @@ class Bug {
     //    list<pair<int,int>> path;
     list<Pair> path;
     virtual void move();
-    bool isWayBlocked();
+    bool isWayBlocked() const;
 
 public:
     int id;
@@ -64,15 +64,16 @@ public:
 
     // Setters
 
-    void setID(int id);
+    void setID(int Id);
     const Pair &getPosition() const;
 //  Direction setter?
     void setDirection(Direction dir);
     void setSize(int size);
     void setIsAlive(bool alive);
 //    virtual setter?
-//    void setIsWayBlocked(bool blocked)
+    void setIsWayBlocked(bool blocked);
     void setPosition(const Pair &position);
+
 };
 
 

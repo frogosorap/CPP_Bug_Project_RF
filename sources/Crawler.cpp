@@ -18,7 +18,6 @@ Crawler::Crawler(int id, int x, int y, Direction dir, int size) {
     this -> direction = dir;
     this -> size = size;
     this -> isAlive = true;
-
 }
 
 void Crawler::move() {

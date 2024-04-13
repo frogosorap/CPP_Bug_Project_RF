@@ -20,9 +20,12 @@ struct Pair{
         x = xP;
         y = yP;
     }
+    // Pair Getters
 
     static int getX() ; //const
     static int getY() ; //const
+
+    // Pair Setters
 
     void setX(int xS)
     {
@@ -49,6 +52,7 @@ public:
     int size;
     bool isAlive;
 
+    // Getters
 
     int getID() const;
     Direction getDirection() const;
@@ -56,7 +60,19 @@ public:
     bool getIsAlive() const;
 //    virtual getMove(); is it a field?
     bool getIsWayBlocked() const;
+    const list<Pair> &getPath() const;
 
+    // Setters
+
+    void setID(int id);
+    const Pair &getPosition() const;
+//  Direction setter?
+    void setDirection(Direction dir);
+    void setSize(int size);
+    void setIsAlive(bool alive);
+//    virtual setter?
+//    void setIsWayBlocked(bool blocked)
+    void setPosition(const Pair &position);
 };
 
 

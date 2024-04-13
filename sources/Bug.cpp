@@ -16,10 +16,14 @@ int Pair::getY() {
     return 0;
 }
 
-bool Bug::isWayBlocked() {
+const Pair &Bug::getPosition() const {
+    return position;
+}
 
+bool Bug::isWayBlocked() {
     return false;
 }
+
 void Bug::move() {
 
 }
@@ -39,3 +43,32 @@ bool Bug::getIsAlive() const {
 bool Bug::getIsWayBlocked() const {
     return false;
 }
+
+const list<Pair> &Bug::getPath() const {
+    return path;
+}
+
+void Bug::setID(int id) {
+    Bug::id = id;
+}
+
+void Bug::setDirection(Direction dir) {
+    Bug::direction = dir;
+}
+
+void Bug::setSize(int size) {
+    Bug::size = size;
+}
+
+void Bug::setIsAlive(bool alive) {
+    Bug::isAlive = alive;
+}
+
+void Bug::setPosition(const Pair &position) {
+    Bug::position = position;
+}
+
+
+
+
+

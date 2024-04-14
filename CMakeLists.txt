@@ -10,4 +10,6 @@ add_executable(CPP_Bug_Project_RF main.cpp
         headers/Crawler.h
         sources/Crawler.cpp
         sources/Hopper.cpp
-        headers/Hopper.h)
+        headers/Hopper.h
+        sources/Board.cpp
+        headers/Board.h)

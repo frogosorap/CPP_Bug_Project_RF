@@ -101,3 +101,4 @@ bool Bug::isWayBlocked() const {
 
     return false; // If bug path is not blocked
 }
+

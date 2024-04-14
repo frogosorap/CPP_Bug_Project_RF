@@ -62,3 +62,19 @@ void Crawler::move() {
     }
 }
 
+void Crawler::displayBugDetails() {
+
+    cout << "Crawler, ID: " + to_string(id) + ", Position (" +to_string(position.getX()) + ", "
+    +to_string(position.getY()) + ")" + ", Size: " + to_string(size) + ", Direction: " +
+    directionString(direction) + ".";
+    if (isAlive)
+    {
+        cout << " Alive ";
+    }
+    else
+    {
+        cout << " Dead ";
+    }
+
+}
+

@@ -12,7 +12,7 @@ public:
 
     void move() override;
 
-
+    void displayBugDetails() override;
 };
 
 #endif //CPP_BUG_PROJECT_RF_CRAWLER_H

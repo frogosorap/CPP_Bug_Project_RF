@@ -17,6 +17,8 @@ public:
 
     void move() override;
     int hopLength;
+
+    void displayBugDetails() override;
 };
 
 #endif //CPP_BUG_PROJECT_RF_HOPPER_H

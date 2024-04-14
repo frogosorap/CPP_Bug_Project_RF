@@ -41,8 +41,10 @@ struct Pair{
 class Bug {
     //    list<pair<int,int>> path;
     list<Pair> path;
-    virtual void move();
+
     bool isWayBlocked() const;
+
+    virtual void move()=0;
 
 public:
     int id;
@@ -74,6 +76,7 @@ public:
     void setIsWayBlocked(bool blocked);
     void setPosition(const Pair &position);
 
+    virtual void displayBugDetails()=0;
 };
 
 

@@ -11,6 +11,8 @@ using namespace std;
 
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
 
+void findBugByGivenID(const vector<Bug *> &bugVec);
+
 int main() {
 
     cout << "Hello, World!" << endl;
@@ -24,6 +26,7 @@ int main() {
         cout << "\n===============================" << endl;
         cout << "= 1. Initialise bug Board     =" << endl;
         cout << "= 2. Display all Bugs         =" << endl;
+        cout << "= 3. Find a bug (given an id) =" << endl;
         cout << "= 0. End program              =" << endl;
         cout << "===============================" << endl;
 
@@ -35,6 +38,9 @@ int main() {
                 break;
             case (2):
                 board->displayAllBugs();
+                break;
+            case(3):
+                findBugByGivenID(bug_vector);
                 break;
             case (0):
                 cout << "Goodbye." << endl;
@@ -88,6 +94,27 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             bugVec.push_back(h);
         }
     }
-
     inputFile.close();
+}
+
+void findBugByGivenID(const vector<Bug *> &bugVec)
+{
+    cout << "Enter ID of Bug to search: ";
+    int input;
+    bool found = false;
+    cin >> input;
+
+    auto it = bugVec.begin(); // initialize it to the beginning of the bugVec
+
+    // iterator loops through all elements of the bugVec vector until the iterator it reaches the end of the vector
+    while (it != bugVec.end()) {
+        Bug *b = *it; // dereference the iterator it to get the pointer to the current Bug object
+        if (b->getID() == input) {
+            cout << "Bug " << input << " found." <<endl;
+            b->displayBugDetails();
+            return;
+        }
+        it++; // iterates through the next element
+    }
+    cout << "Bug " << input << " does not exist." <<endl;
 }

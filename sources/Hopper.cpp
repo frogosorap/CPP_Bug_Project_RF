@@ -82,21 +82,20 @@ void Hopper::move() {
             setPosition(newPos); // Update the new position newPos
         }
     }
-
 }
 
 void Hopper::displayBugDetails() {
 
     cout << "Hopper, ID: " + to_string(id) + ", Position (" +to_string(position.getX()) + ", "
             +to_string(position.getY()) + ")" + ", Size: " + to_string(size) + ", Direction: " +
-            directionString(direction) + ", Hop Length: " + to_string(hopLength) +".";
+            directionString(direction) + ", Hop Length: " + to_string(hopLength);
     if (isAlive)
     {
-        cout << " Alive ";
+        cout << ", Alive.";
     }
     else
     {
-        cout << " Dead ";
+        cout << ", Dead.";
     }
 
 }

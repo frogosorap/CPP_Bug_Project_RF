@@ -79,6 +79,9 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
         int y = stoi(tokens.at(3));
         int dir = stoi(tokens.at(4));
         int size = stoi(tokens.at(5));
+        char bugType = '\O';
+        bugType = tokens[0][0];
+
         Direction d;
         if (dir == 1) {
             d = Direction::NORTH;
@@ -89,6 +92,7 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
         } else {
             d = Direction::WEST;
         }
+
         if (tokens.at(0) == "C") {
             auto *c = new Crawler(id, x, y, d, size);
             bugVec.push_back(c);
@@ -98,6 +102,19 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             auto *h = new Hopper(id, x, y, d, size, hopLength);
             bugVec.push_back(h);
         }
+//        switch(bugType)
+//        {
+//            case 'C':
+//                auto *c = new Crawler(id, x, y, d, size);
+//                bugVec.push_back(c);
+//                break;
+//            case 'H':
+//                int hopLength = stoi(tokens.at(6));
+//                auto *h = new Hopper(id, x, y, d, size, hopLength);
+//                bugVec.push_back(h);
+//                break;
+//        }
+
     }
     inputFile.close();
 }

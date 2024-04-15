@@ -25,6 +25,12 @@ public:
     void initializeBugBoard(vector<Bug *> &bugsVec);
 
     void displayAllBugs();
+
+    void tap();
+
+    void getBugPosition();
+
+    void moveBug();
 };
 
 

@@ -44,8 +44,6 @@ class Bug {
 
     bool isWayBlocked() const;
 
-    virtual void move()=0;
-
 public:
     int id;
 //    pair<int, int> position;
@@ -77,6 +75,8 @@ public:
     void setPosition(const Pair &position);
 
     virtual void displayBugDetails()=0;
+
+    virtual void move()=0;
 };
 
 

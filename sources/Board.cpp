@@ -46,6 +46,8 @@ void Board::tap(){
     // method for moving position
     // idea is to get the bug's position, delete it there
     // paste the new bug position onto the board
+
+    moveBug();
 }
 
 void Board::getBugPosition()
@@ -55,5 +57,8 @@ void Board::getBugPosition()
 
 void Board::moveBug()
 {
-
+    for (int i=0; i<bugsVector.size();i++)
+    {
+        bugsVector[i] -> move();
+    }
 }

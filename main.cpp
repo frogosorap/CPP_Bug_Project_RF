@@ -47,6 +47,10 @@ int main() {
             case(3):
                 findBugByGivenID(bug_vector);
                 break;
+            case(4):
+                board -> tap();
+                board->displayAllBugs();
+                break;
             case (0):
                 cout << "Goodbye." << endl;
                 break;
@@ -56,9 +60,16 @@ int main() {
     delete board; // Freeing memory allocated for the board
 }
 
+//https://stackoverflow.com/questions/65294610/c-project-cant-read-file-when-building-with-cmake <--- Reading bugs.txt from Cmake file
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
 {
-    ifstream inputFile(fileName);
+    string filePath = "cmake-build-debug/" + fileName; // Adjust the path here
+    ifstream inputFile(filePath);
+    if (!inputFile.is_open()) {
+        cerr << "Error: Problem with file. " << fileName << endl;
+        return;
+    }
+//    ifstream inputFile(fileName);
     while (!inputFile.eof()) {
         string line;
 
@@ -79,8 +90,8 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
         int y = stoi(tokens.at(3));
         int dir = stoi(tokens.at(4));
         int size = stoi(tokens.at(5));
-        char bugType = '\O';
-        bugType = tokens[0][0];
+//        char bugType = '\O';
+//        bugType = tokens[0][0];
 
         Direction d;
         if (dir == 1) {

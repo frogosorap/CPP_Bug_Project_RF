@@ -25,9 +25,6 @@ bool Bug::getIsWayBlocked() const {
     return isWayBlocked();
 }
 
-void Bug::move() {
-
-}
 
 Direction Bug::getDirection() const {
     return direction;

@@ -29,7 +29,7 @@ int main() {
         cout << "= 3. Find a Bug                         =" << endl;
         cout << "= 4. Tap the Bug Board                  =" << endl;
         cout << "= 5. Display Life History of all Bugs   =" << endl;
-        cout << "= 6.                                    =" << endl;
+        cout << "= 6. Exit                               =" << endl;
         cout << "= 7.                                    =" << endl;
         cout << "= 8.                                    =" << endl;
         cout << "= 0. End program                        =" << endl;

@@ -35,6 +35,8 @@ public:
     void lifeHistory();
 
     string getLifeHistory(Bug *bug);
+
+    void outputFile();
 };
 
 

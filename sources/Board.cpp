@@ -71,10 +71,17 @@ void Board::lifeHistory()
     }
 }
 
-string Board::getLifeHistory(Bug *bug) {
+string Board::getLifeHistory(Bug *bug)
+{
     string bugLifeHistory = "Path Taken by Bug " + to_string(bug->getID()) + ": ";
-    for (const auto &pos : bug->getPathHistory()) {
+    for (const auto &pos : bug->getPathHistory())
+    {
         bugLifeHistory += "(" + to_string(pos.getX()) + "," + to_string(pos.getY()) + ") ";
     }
     return bugLifeHistory;
+}
+
+void Board::outputFile()
+{
+
 }

@@ -99,3 +99,11 @@ bool Bug::isWayBlocked() const {
     return false; // If bug path is not blocked
 }
 
+const list<Pair> &Bug::getPathHistory() const {
+    return pathHistory;
+}
+
+void Bug::updatePathHistory() {
+    pathHistory.push_back(getPosition());
+}
+

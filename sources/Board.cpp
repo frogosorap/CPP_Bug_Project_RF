@@ -60,5 +60,21 @@ void Board::moveBug()
     for (int i=0; i<bugsVector.size();i++)
     {
         bugsVector[i] -> move();
+        bugsVector[i]->updatePathHistory();
     }
+}
+
+void Board::lifeHistory()
+{
+    for (Bug *bug: bugsVector) {
+        cout << getLifeHistory(bug) << endl;
+    }
+}
+
+string Board::getLifeHistory(Bug *bug) {
+    string bugLifeHistory = "Path Taken by Bug " + to_string(bug->getID()) + ": ";
+    for (const auto &pos : bug->getPathHistory()) {
+        bugLifeHistory += "(" + to_string(pos.getX()) + "," + to_string(pos.getY()) + ") ";
+    }
+    return bugLifeHistory;
 }

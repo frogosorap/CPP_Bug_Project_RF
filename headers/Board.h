@@ -31,6 +31,10 @@ public:
     void getBugPosition();
 
     void moveBug();
+
+    void lifeHistory();
+
+    string getLifeHistory(Bug *bug);
 };
 
 

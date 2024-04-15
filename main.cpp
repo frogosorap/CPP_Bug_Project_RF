@@ -23,17 +23,17 @@ int main() {
 
     int option = -1;
     while (option != 0) {
-        cout << "\n===============================" << endl;
-        cout << "= 1. Initialise bug Board     =" << endl;
-        cout << "= 2. Display all Bugs         =" << endl;
-        cout << "= 3. Find a Bug (given an id) =" << endl;
-        cout << "= 4. Tap the Bug Board        =" << endl;
-        cout << "= 5.                          =" << endl;
-        cout << "= 6.                          =" << endl;
-        cout << "= 7.                          =" << endl;
-        cout << "= 8.                          =" << endl;
-        cout << "= 0. End program              =" << endl;
-        cout << "===============================" << endl;
+        cout << "\n=======================================" << endl;
+        cout << "= 1. Initialise bug Board               =" << endl;
+        cout << "= 2. Display all Bugs                   =" << endl;
+        cout << "= 3. Find a Bug                         =" << endl;
+        cout << "= 4. Tap the Bug Board                  =" << endl;
+        cout << "= 5. Display Life History of all Bugs   =" << endl;
+        cout << "= 6.                                    =" << endl;
+        cout << "= 7.                                    =" << endl;
+        cout << "= 8.                                    =" << endl;
+        cout << "= 0. End program                        =" << endl;
+        cout << "=========================================" << endl;
 
         cin >> option;
 
@@ -50,6 +50,9 @@ int main() {
             case(4):
                 board -> tap();
                 board->displayAllBugs();
+                break;
+            case(5):
+                board -> lifeHistory();
                 break;
             case (0):
                 cout << "Goodbye." << endl;

@@ -43,7 +43,8 @@ class Bug {
     list<Pair> path;
 
     bool isWayBlocked() const;
-
+private:
+    list<Pair> pathHistory;
 public:
     int id;
 //    pair<int, int> position;
@@ -77,6 +78,9 @@ public:
     virtual void displayBugDetails()=0;
 
     virtual void move()=0;
+
+    const list<Pair> &getPathHistory() const;
+    void updatePathHistory();
 };
 
 

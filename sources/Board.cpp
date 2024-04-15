@@ -17,7 +17,15 @@ Board::Board(const vector<Bug *> &bugs){
 
 }
 
-Board::Board()=default;
+//Board::Board()=default;
+
+Board::Board()
+{
+    for (int j = 0; j < 10; ++j)
+    {
+        boardVec10.push_back(std::vector<Bug*>());
+    }
+}
 
 void Board::initializeBugBoard(vector<Bug*> &bugsVec)
 {

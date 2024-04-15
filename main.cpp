@@ -26,7 +26,12 @@ int main() {
         cout << "\n===============================" << endl;
         cout << "= 1. Initialise bug Board     =" << endl;
         cout << "= 2. Display all Bugs         =" << endl;
-        cout << "= 3. Find a bug (given an id) =" << endl;
+        cout << "= 3. Find a Bug (given an id) =" << endl;
+        cout << "= 4. Tap the Bug Board        =" << endl;
+        cout << "= 5.                          =" << endl;
+        cout << "= 6.                          =" << endl;
+        cout << "= 7.                          =" << endl;
+        cout << "= 8.                          =" << endl;
         cout << "= 0. End program              =" << endl;
         cout << "===============================" << endl;
 

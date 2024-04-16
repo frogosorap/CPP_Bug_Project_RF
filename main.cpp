@@ -30,7 +30,7 @@ int main() {
         cout << "= 4. Tap the Bug Board                  =" << endl;
         cout << "= 5. Display Life History of all Bugs   =" << endl;
         cout << "= 6. Exit                               =" << endl;
-        cout << "= 7.                                    =" << endl;
+        cout << "= 7. Display All Cells                  =" << endl;
         cout << "= 8.                                    =" << endl;
         cout << "=========================================" << endl;
 
@@ -56,6 +56,9 @@ int main() {
             case(6):
                 board -> outputFile();
                 option = 0;
+                break;
+            case(7):
+                board -> displayAllCells();
                 break;
         }
     }

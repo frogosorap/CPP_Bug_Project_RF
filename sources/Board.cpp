@@ -23,14 +23,72 @@ Board::Board()
 {
     for (int j = 0; j < 10; ++j)
     {
-        boardVec10.push_back(vector<Bug*>());
+        boardVec10.push_back(vector<Bug*>(10, nullptr));
     }
 }
 
 void Board::initializeBugBoard(vector<Bug*> &bugsVec)
 {
-    bugsVector=bugsVec;
+    // Clear any existing bugs on the board
+    for (auto& row : boardVec10) {
+        for (auto& cell : row) {
+            cell = nullptr;
+        }
+    }
+
+    // Populate the board with bugs from bugsVec
+    for (Bug* bug : bugsVec)
+    {
+        // Get the bug's position
+        int x = bug->getPosition().getX();
+        int y = bug->getPosition().getY();
+
+        // Check if the bug's position is within the board's bounds
+        if (x >= 0 && x < 10 && y >= 0 && y < 10)
+        {
+            // Place the bug onto the board
+            boardVec10[y][x] = bug;
+        }
+        else
+        {
+            cout << "Bug position is out of bounds: (" << x << "," << y << ")" << endl;
+        }
+    }
+
+    // Update the bugsVector with the new bugsVec
+    bugsVector = bugsVec;
 }
+
+
+// Only working for displaying cells
+//void Board::initializeBugBoard(vector<Bug*> &bugsVec)
+//{
+//    // Clear any existing bugs on the board
+//    for (auto& row : boardVec10) {
+//        for (auto& cell : row) {
+//            cell = nullptr;
+//        }
+//    }
+//
+//    // Populate the board with bugs from bugsVec
+//    for (Bug* bug : bugsVec)
+//    {
+//        // Get the bug's position
+//        int x = bug->getPosition().getX();
+//        int y = bug->getPosition().getY();
+//
+//        // Check if the bug's position is within the board's bounds
+//        if (x >= 0 && x < 10 && y >= 0 && y < 10)
+//        {
+//            // Place the bug onto the board
+//            boardVec10[y][x] = bug;
+//        }
+//        else
+//        {
+//            cout << "Bug position is out of bounds: (" << x << "," << y << ")" << endl;
+//        }
+//    }
+//}
 
 void Board::displayAllBugs()
 {
@@ -41,6 +99,7 @@ void Board::displayAllBugs()
     }
 }
 
+
 void Board::tap(){
     // method for getting position
     // method for moving position
@@ -48,6 +107,7 @@ void Board::tap(){
     // paste the new bug position onto the board
 
     moveBug();
+    displayAllCells();
 }
 
 void Board::getBugPosition()
@@ -102,4 +162,34 @@ void Board::outputFile()
     cout << "Saved your bug history in file: "<< outputFileName << endl;
 
     output.close();
+}
+
+void Board::displayAllCells()
+{
+    const int padding = 3;
+    cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+    // Iterate over each row
+    for (int i = 0; i < boardVec10.size(); ++i)
+    {
+        // Iterate over each column in the current row
+        for (int j = 0; j < boardVec10[i].size(); ++j)
+        {
+            cout << "(" << j << "," << i << "): ";
+
+            // If there's a bug in the cell, display its ID
+            if (boardVec10[i][j] != nullptr)
+            {
+                cout.width(padding); // Set the width for alignment
+                cout << boardVec10[i][j]->getID();
+            }
+            else
+            {
+                cout.width(padding); // Set the width for alignment
+                cout << "---";
+            }
+            cout << " ";
+        }
+        cout<<endl;
+        cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+    }
 }

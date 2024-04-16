@@ -13,6 +13,8 @@
 
 class Board {
 
+    Board(vector<Bug *> &bugs);
+
     vector<vector<Bug*>> boardVec10;
 
     vector<Bug*> bugsVector;
@@ -37,6 +39,8 @@ public:
     string getLifeHistory(Bug *bug);
 
     void outputFile();
+
+    void displayAllCells();
 };
 
 

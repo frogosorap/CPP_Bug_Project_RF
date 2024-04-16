@@ -77,13 +77,13 @@ bool Bug::isWayBlocked() const {
             }
             break;
         case Direction::SOUTH:
-            if (currentPosition.getY() >= 10)
+            if (currentPosition.getY() >= 9)
             {
                 return true; // // If bug is facing north, it checks if its current Y coordinate is less than or equal to 10.
             }
             break;
         case Direction::EAST:
-            if (currentPosition.getX() >= 10)
+            if (currentPosition.getX() >= 9)
             {
                 return true; // If bug is facing north, it checks if its current X coordinate is less than or equal to 10.
             }

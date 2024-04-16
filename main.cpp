@@ -32,7 +32,6 @@ int main() {
         cout << "= 6. Exit                               =" << endl;
         cout << "= 7.                                    =" << endl;
         cout << "= 8.                                    =" << endl;
-        cout << "= 0. End program                        =" << endl;
         cout << "=========================================" << endl;
 
         cin >> option;
@@ -54,8 +53,9 @@ int main() {
             case(5):
                 board -> lifeHistory();
                 break;
-            case (0):
-                cout << "Goodbye." << endl;
+            case(6):
+                board -> outputFile();
+                option = 0;
                 break;
         }
     }

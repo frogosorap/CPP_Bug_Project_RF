@@ -81,7 +81,25 @@ string Board::getLifeHistory(Bug *bug)
     return bugLifeHistory;
 }
 
+//https://www.javatpoint.com/cpp-date-and-time <--- Getting local time of computer
+//https://olafurw.com/2018-05-03-strftime-and-fixed-size-buffers/ <--- formatting strftime so it can be put into string
 void Board::outputFile()
 {
+    time_t now = time(0); // get current date/time with respect to system
 
+    struct tm* timeinfo = localtime(&now);
+
+    char buffer[80];
+    strftime(buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo); // Formats date and time
+
+    string outputFileName = "bug's_life_history_" + string(buffer) + ".out.txt"; // Include formatted time in the file name
+    ofstream output(outputFileName);
+    for (Bug* bug : bugsVector)
+    {
+        output << getLifeHistory(bug) << "\n";
+    }
+
+    cout << "Saved your bug history in file: "<< outputFileName << endl;
+
+    output.close();
 }

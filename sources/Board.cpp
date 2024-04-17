@@ -2,6 +2,7 @@
 // Created by Raphael Frogoso on 14/04/2024.
 //
 #include "../headers/Board.h"
+#include "../headers/Bug.h"
 
 #include <fstream>
 #include <iostream>
@@ -59,36 +60,6 @@ void Board::initializeBugBoard(vector<Bug*> &bugsVec)
     bugsVector = bugsVec;
 }
 
-
-// Only working for displaying cells
-//void Board::initializeBugBoard(vector<Bug*> &bugsVec)
-//{
-//    // Clear any existing bugs on the board
-//    for (auto& row : boardVec10) {
-//        for (auto& cell : row) {
-//            cell = nullptr;
-//        }
-//    }
-//
-//    // Populate the board with bugs from bugsVec
-//    for (Bug* bug : bugsVec)
-//    {
-//        // Get the bug's position
-//        int x = bug->getPosition().getX();
-//        int y = bug->getPosition().getY();
-//
-//        // Check if the bug's position is within the board's bounds
-//        if (x >= 0 && x < 10 && y >= 0 && y < 10)
-//        {
-//            // Place the bug onto the board
-//            boardVec10[y][x] = bug;
-//        }
-//        else
-//        {
-//            cout << "Bug position is out of bounds: (" << x << "," << y << ")" << endl;
-//        }
-//    }
-//}
 
 void Board::displayAllBugs()
 {
@@ -164,32 +135,40 @@ void Board::outputFile()
     output.close();
 }
 
+
+// Jamie helped me update my bug each time I move as I originally only looked at the board vector and not the bug vector
 void Board::displayAllCells()
 {
     const int padding = 3;
     cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+    cout<<endl;
     // Iterate over each row
-    for (int i = 0; i < boardVec10.size(); ++i)
+    for (int i = 0; i < 10; ++i)
     {
         // Iterate over each column in the current row
-        for (int j = 0; j < boardVec10[i].size(); ++j)
+        for (int j = 0; j < 10; ++j)
         {
-            cout << "(" << j << "," << i << "): ";
-
-            // If there's a bug in the cell, display its ID
-            if (boardVec10[i][j] != nullptr)
+            cout << " (" << j << "," << i << "): ";
+            bool iscellEmpty = true;
+            for ( Bug *bug:bugsVector)
+            {
+                if (bug->getPosition().x == i && bug->getPosition().y == j) { //if bug position (x,y) is equal to board tile (i.j) then it has a bug on it so.
+                    cout.width(padding); // Set the width for alignment
+                    // If there's a bug in the cell, display its ID
+                    cout << bug->id;
+                    iscellEmpty = false;
+                }
+            }
+            if (iscellEmpty == true)
             {
                 cout.width(padding); // Set the width for alignment
-                cout << boardVec10[i][j]->getID();
+                cout << "   ";
             }
-            else
-            {
-                cout.width(padding); // Set the width for alignment
-                cout << "---";
-            }
-            cout << " ";
         }
         cout<<endl;
-        cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+        cout<<endl;
+//        cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+
     }
+    cout << "----------------------------------------------------------------------------------------------------------------" << endl;
 }

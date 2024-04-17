@@ -40,6 +40,8 @@ public:
 
     void outputFile();
 
+    void BugBoard();
+
     void displayAllCells();
 };
 

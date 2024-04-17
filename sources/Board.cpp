@@ -3,6 +3,8 @@
 //
 #include "../headers/Board.h"
 #include "../headers/Bug.h"
+#include "../headers/Crawler.h"
+#include "../headers/Hopper.h"
 
 #include <fstream>
 #include <iostream>
@@ -78,7 +80,6 @@ void Board::tap(){
     // paste the new bug position onto the board
 
     moveBug();
-    displayAllCells();
 }
 
 void Board::getBugPosition()
@@ -137,7 +138,7 @@ void Board::outputFile()
 
 
 // Jamie helped me update my bug each time I move as I originally only looked at the board vector and not the bug vector
-void Board::displayAllCells()
+void Board::BugBoard()
 {
     const int padding = 3;
     cout << "----------------------------------------------------------------------------------------------------------------" << endl;
@@ -172,3 +173,61 @@ void Board::displayAllCells()
     }
     cout << "----------------------------------------------------------------------------------------------------------------" << endl;
 }
+
+
+//https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
+void Board::displayAllCells()
+{
+    // Iterate over each cell
+    for (int i = 0; i < 10; ++i)
+    {
+        for (int j = 0; j < 10; ++j)
+        {
+            cout << "(" << i << "," << j << "): "; // Display cell coordinates
+
+            bool isCellEmpty = true;
+            vector<string> bugsInCell; // Store Type of bug and ID in this vector
+            for (Bug *bug : bugsVector)
+            {
+                // Check if there's a bug in the cell
+                if (bug->getPosition().x == i && bug->getPosition().y == j) {
+                    // Identify the bug type and ID
+                    string bugDetail;
+                    if (dynamic_cast<Crawler*>(bug))
+                    {
+                        bugDetail = "Crawler " + to_string(bug->id); // Crawler
+                    }
+                    else if (dynamic_cast<Hopper*>(bug))
+                    {
+                        bugDetail = "Hopper " + to_string(bug->id); // Hopper
+                    }
+                    bugsInCell.push_back(bugDetail); // Store bug type and ID
+                    isCellEmpty = false;
+                }
+            }
+
+            // Display bugs in the cell
+            if (!isCellEmpty)
+            {
+                // Checks bugsInCell bug types and IDs for display
+                for (int k = 0; k < bugsInCell.size(); ++k)
+                {
+                    // Prints one bug
+                    cout << bugsInCell[k];
+
+                    // if more than 1 bug
+                    if (k != bugsInCell.size() - 1)
+                    {
+                        cout << ", ";
+                    }
+                }
+            }
+            else
+            {
+                cout << "empty";
+            }
+            cout << endl;
+        }
+    }
+}
+

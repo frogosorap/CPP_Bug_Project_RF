@@ -29,9 +29,9 @@ int main() {
         cout << "= 3. Find a Bug                         =" << endl;
         cout << "= 4. Tap the Bug Board                  =" << endl;
         cout << "= 5. Display Life History of all Bugs   =" << endl;
-        cout << "= 6. Exit                               =" << endl;
-        cout << "= 7. Display All Cells                  =" << endl;
-        cout << "= 8.                                    =" << endl;
+        cout << "= 6. Display All Cells                  =" << endl;
+        cout << "= 7. Run Simulation                     =" << endl;
+        cout << "= 8. Exit                               =" << endl;
         cout << "=========================================" << endl;
 
         cin >> option;
@@ -48,17 +48,20 @@ int main() {
                 break;
             case(4):
                 board -> tap();
-                board->displayAllBugs();
+                board -> BugBoard();
                 break;
             case(5):
                 board -> lifeHistory();
                 break;
             case(6):
-                board -> outputFile();
-                option = 0;
+                board -> displayAllCells();
                 break;
             case(7):
-                board -> displayAllCells();
+
+                break;
+            case(8):
+                board -> outputFile();
+                option = 0;
                 break;
         }
     }

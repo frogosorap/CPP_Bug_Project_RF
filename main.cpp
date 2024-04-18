@@ -58,7 +58,7 @@ int main() {
                 board -> displayAllCells();
                 break;
             case(7):
-
+                board -> runSim();
                 break;
             case(8):
                 board -> outputFile();

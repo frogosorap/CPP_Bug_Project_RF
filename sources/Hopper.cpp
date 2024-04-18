@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "../headers/Hopper.h"
+#include <random>
 
 Hopper::Hopper(int id, int x, int y, Direction dir, int size, int hopLength) {
     this -> id = id;
@@ -15,11 +16,16 @@ Hopper::Hopper(int id, int x, int y, Direction dir, int size, int hopLength) {
     this -> hopLength = hopLength;
 }
 
+// https://stackoverflow.com/questions/7560114/random-number-c-in-some-range <--- Random Number
 void Hopper::move()
 {
     if (getIsWayBlocked())
     {
-        int randDirection = rand() % 4;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<> dist(0, 3);
+        int randDirection = dist(gen);
+
         switch (randDirection)
         {
             case 0:
@@ -62,8 +68,11 @@ void Hopper::move()
         if (newPos.getX() < 0 || newPos.getX() >= 10 || newPos.getY() < 0 || newPos.getY() >= 10)
         {
             // If hop hits the edge, set a new random direction
-            int randDirection = rand() % 4;
-            switch (randDirection)
+            random_device rd;
+            mt19937 gen(rd());
+            uniform_int_distribution<> dist(0, 3);
+            int randDirectionE = dist(gen);
+            switch (randDirectionE)
             {
                 case 0:
                     setDirection(Direction::NORTH);

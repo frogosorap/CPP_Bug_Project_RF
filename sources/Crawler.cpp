@@ -20,10 +20,16 @@ Crawler::Crawler(int id, int x, int y, Direction dir, int size) {
     this -> isAlive = true;
 }
 
+
+// https://stackoverflow.com/questions/7560114/random-number-c-in-some-range  <--- Random number
 void Crawler::move() {
     if(getIsWayBlocked())
     {
-        int randDirection = rand()%4;
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<> dist(0, 3);
+        int randDirection = dist(gen);
+
         switch (randDirection)
         {
             case 0:

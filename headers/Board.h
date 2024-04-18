@@ -43,6 +43,8 @@ public:
     void BugBoard();
 
     void displayAllCells();
+
+    void runSim();
 };
 
 

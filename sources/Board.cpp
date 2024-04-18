@@ -84,11 +84,10 @@ void Board::tap(){
 
     moveBug();
     fight();
-    displayAllBugs();
 }
 
-void Board::fight() {
-
+void Board::fight()
+{
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
@@ -138,9 +137,12 @@ void Board::fight() {
                             else
                             {
                                 // Randomly decide which bug wins if they're of the same size
-                                int winnerIndex = rand() % 2; // Generate random number between 0 and 1
+                                random_device rd;
+                                mt19937 gen(rd());
+                                uniform_int_distribution<> dist(0, 1);
+                                int randWinner = dist(gen); // Generate random number between 0 and 1
 
-                                if (winnerIndex == 0)
+                                if (randWinner == 0)
                                 {
                                     // Current bug wins, update sizes and mark the other bug dead
                                     int newSize = currentBug->getSize() + otherBug->getSize();
@@ -331,3 +333,32 @@ void Board::displayAllCells()
     }
 }
 
+// https://stackoverflow.com/questions/4184468/sleep-for-milliseconds <--- Sleep time for 1 second
+void Board::runSim()
+{
+    int aliveCount = bugsVector.size(); // Initialize with the total number of bugs
+    while (aliveCount > 1)
+    {
+        aliveCount = 0; // Reset the count of alive bugs
+        tap();
+        BugBoard();
+        for (Bug* bug : bugsVector)
+        {
+            if (bug->getIsAlive())
+            {
+                aliveCount++;
+            }
+        }
+        this_thread::sleep_for(chrono::milliseconds(1000));
+    }
+
+    // Display the winner when only one bug is left
+    for (Bug* bug : bugsVector)
+    {
+        if (bug->getIsAlive())
+        {
+            cout << "Bug " << bug->getID() << " is the winner!" << endl;
+            break;
+        }
+    }
+}

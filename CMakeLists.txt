@@ -13,3 +13,10 @@ add_executable(CPP_Bug_Project_RF main.cpp
         headers/Hopper.h
         sources/Board.cpp
         headers/Board.h)
+
+set(SFML_STATIC_LIBRARIES TRUE)
+set(SFML_DIR C:/SFML-2.6.1/lib/cmake/SFML)
+find_package(SFML COMPONENTS system window graphics audio network REQUIRED)
+
+include_directories(C:/SFML-2.6.1/include)
+target_link_libraries(CPP_Bug_Project_RF sfml-system sfml-window sfml-graphics sfml-audio)

@@ -298,8 +298,6 @@ void Board::displayAllCells()
                     isCellEmpty = false;
                 }
             }
-
-
             // Display bugs in the cell
             if (!isCellEmpty)
             {

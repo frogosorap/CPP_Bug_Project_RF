@@ -107,3 +107,11 @@ void Bug::updatePathHistory() {
     pathHistory.push_back(getPosition());
 }
 
+int Bug::getEatenBy() const {
+    return eatenBy;
+}
+
+void Bug::setEatenBy(int id) {
+    eatenBy = id;
+}
+

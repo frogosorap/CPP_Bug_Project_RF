@@ -41,10 +41,11 @@ struct Pair{
 class Bug {
     //    list<pair<int,int>> path;
     list<Pair> path;
-
+    int eatenBy;
     bool isWayBlocked() const;
 private:
     list<Pair> pathHistory;
+
 public:
     int id;
 //    pair<int, int> position;
@@ -62,6 +63,7 @@ public:
 //    virtual getMove(); is it a field?
     bool getIsWayBlocked() const;
     const list<Pair> &getPath() const;
+    int getEatenBy() const;
 
     // Setters
 
@@ -74,6 +76,7 @@ public:
 //    virtual setter?
     void setIsWayBlocked(bool blocked);
     void setPosition(const Pair &position);
+    void setEatenBy(int id);
 
     virtual void displayBugDetails()=0;
 
@@ -81,6 +84,7 @@ public:
 
     const list<Pair> &getPathHistory() const;
     void updatePathHistory();
+
 };
 
 

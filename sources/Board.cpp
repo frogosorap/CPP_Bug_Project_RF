@@ -123,6 +123,7 @@ void Board::fight() {
                                 currentBug->setSize(newSize);
                                 otherBug->setSize(0); // Set size of defeated bug to 0
                                 otherBug->setIsAlive(false); // Mark defeated bug as dead
+                                otherBug->setEatenBy(currentBug->getID());
                             }
                             else if (currentBug->getSize() < otherBug->getSize())
                             {
@@ -132,6 +133,7 @@ void Board::fight() {
                                 otherBug->setSize(newSize);
                                 currentBug->setSize(0); // Set size of defeated bug to 0
                                 currentBug->setIsAlive(false); // Mark defeated bug as dead
+                                currentBug->setEatenBy(otherBug->getID());
                             }
                             else
                             {
@@ -140,21 +142,23 @@ void Board::fight() {
 
                                 if (winnerIndex == 0)
                                 {
-                                    // Current bug wins, update sizes and mark the other bug as dead
+                                    // Current bug wins, update sizes and mark the other bug dead
                                     int newSize = currentBug->getSize() + otherBug->getSize();
                                     if (newSize > 20) newSize = 20; // Limit size to 20
                                     currentBug->setSize(newSize);
                                     otherBug->setSize(0); // Set size of defeated bug to 0
-                                    otherBug->setIsAlive(false); // Mark defeated bug as dead
+                                    otherBug->setIsAlive(false); // Mark defeated bug dead
+                                    otherBug->setEatenBy(currentBug->getID());
                                 }
                                 else
                                 {
-                                    // Other bug wins, update sizes and mark the current bug as dead
+                                    // Other bug wins, update sizes and mark the current bug dead
                                     int newSize = otherBug->getSize() + currentBug->getSize();
                                     if (newSize > 20) newSize = 20; // Limit size to 20
                                     otherBug->setSize(newSize);
                                     currentBug->setSize(0); // Set size of defeated bug to 0
-                                    currentBug->setIsAlive(false); // Mark defeated bug as dead
+                                    currentBug->setIsAlive(false); // Mark defeated bug dead
+                                    currentBug->setEatenBy(otherBug->getID());
                                 }
                             }
                         }
@@ -192,11 +196,15 @@ string Board::getLifeHistory(Bug *bug)
     {
         bugLifeHistory += "(" + to_string(pos.getX()) + "," + to_string(pos.getY()) + ") ";
     }
+    if (!bug->getIsAlive())
+    {
+        bugLifeHistory += "Eaten by Bug " + to_string(bug->getEatenBy());
+    }
     return bugLifeHistory;
 }
 
 //https://www.javatpoint.com/cpp-date-and-time <--- Getting local time of computer
-//https://olafurw.com/2018-05-03-strftime-and-fixed-size-buffers/ <--- formatting strftime so it can be put into string
+//https://olafurw.com/2018-05-03-strftime-and-fixed-size-buffers/ <--- Formatting strftime so it can be put into string
 void Board::outputFile()
 {
     time_t now = time(0); // get current date/time with respect to system

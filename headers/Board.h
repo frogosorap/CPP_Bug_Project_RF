@@ -30,7 +30,7 @@ public:
 
     void tap();
 
-    void getBugPosition();
+    void fight();
 
     void moveBug();
 

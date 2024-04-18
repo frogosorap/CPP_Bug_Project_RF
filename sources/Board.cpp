@@ -11,6 +11,9 @@
 #include <thread>
 #include <random>
 
+#include <cstdlib>
+#include <ctime>
+
 using namespace std;
 
 
@@ -80,19 +83,98 @@ void Board::tap(){
     // paste the new bug position onto the board
 
     moveBug();
+    fight();
+    displayAllBugs();
 }
 
-void Board::getBugPosition()
-{
+void Board::fight() {
 
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            // Iterate over each cell in the board
+            if (boardVec10[i][j] != nullptr)
+            {
+                // Check if a bug is in the cell
+                Bug *currentBug = boardVec10[i][j];
+                Pair currentPos = currentBug->getPosition();
+
+                // Check if there's another bug in cell
+                for (int k = 0; k < bugsVector.size(); k++)
+                {
+                    Bug *otherBug = bugsVector[k];
+
+                    // Check other bugs as current bug cannot fight themselves
+                    // Check if other bug is in the same (x,y) cell as current bug
+                    // Check if other bug is alive
+                    if (otherBug != currentBug && otherBug->getPosition().getX() == currentPos.getX() &&
+                        otherBug->getPosition().getY() == currentPos.getY() && otherBug->getIsAlive())
+                    {
+                        // If there's another bug in the same cell and it's alive, perform fight
+                        if (currentBug->getIsAlive())
+                        {
+                            // If current bug is greater than other bug
+                            if (currentBug->getSize() > otherBug->getSize())
+                            {
+                                // Current bug wins, update sizes and mark the other bug dead
+                                int newSize = currentBug->getSize() + otherBug->getSize();
+                                if (newSize > 20) newSize = 20; // Limit size to 20
+                                currentBug->setSize(newSize);
+                                otherBug->setSize(0); // Set size of defeated bug to 0
+                                otherBug->setIsAlive(false); // Mark defeated bug as dead
+                            }
+                            else if (currentBug->getSize() < otherBug->getSize())
+                            {
+                                // Current bug loses, update sizes and mark the current bug dead
+                                int newSize = otherBug->getSize() + currentBug->getSize();
+                                if (newSize > 20) newSize = 20; // Limit size to 20
+                                otherBug->setSize(newSize);
+                                currentBug->setSize(0); // Set size of defeated bug to 0
+                                currentBug->setIsAlive(false); // Mark defeated bug as dead
+                            }
+                            else
+                            {
+                                // Randomly decide which bug wins if they're of the same size
+                                int winnerIndex = rand() % 2; // Generate random number between 0 and 1
+
+                                if (winnerIndex == 0)
+                                {
+                                    // Current bug wins, update sizes and mark the other bug as dead
+                                    int newSize = currentBug->getSize() + otherBug->getSize();
+                                    if (newSize > 20) newSize = 20; // Limit size to 20
+                                    currentBug->setSize(newSize);
+                                    otherBug->setSize(0); // Set size of defeated bug to 0
+                                    otherBug->setIsAlive(false); // Mark defeated bug as dead
+                                }
+                                else
+                                {
+                                    // Other bug wins, update sizes and mark the current bug as dead
+                                    int newSize = otherBug->getSize() + currentBug->getSize();
+                                    if (newSize > 20) newSize = 20; // Limit size to 20
+                                    otherBug->setSize(newSize);
+                                    currentBug->setSize(0); // Set size of defeated bug to 0
+                                    currentBug->setIsAlive(false); // Mark defeated bug as dead
+                                }
+                            }
+                        }
+                        break; // Exit the loop after finding one other bug in the same cell
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Board::moveBug()
 {
     for (int i=0; i<bugsVector.size();i++)
     {
-        bugsVector[i] -> move();
-        bugsVector[i]->updatePathHistory();
+        if(bugsVector[i]->getIsAlive())
+        {
+            bugsVector[i] -> move();
+            bugsVector[i]->updatePathHistory();
+        }
     }
 }
 
@@ -141,7 +223,7 @@ void Board::outputFile()
 void Board::BugBoard()
 {
     const int padding = 3;
-    cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "\n----------------------------------------------------------------------------------------------------------------" << endl;
     cout<<endl;
     // Iterate over each row
     for (int i = 0; i < 10; ++i)
@@ -201,10 +283,22 @@ void Board::displayAllCells()
                     {
                         bugDetail = "Hopper " + to_string(bug->id); // Hopper
                     }
-                    bugsInCell.push_back(bugDetail); // Store bug type and ID
+
+                    // Include the status (dead or alive)
+                    if (bug->getIsAlive())
+                    {
+                        bugDetail += " Alive";
+                    }
+                    else
+                    {
+                        bugDetail += " Dead";
+                    }
+
+                    bugsInCell.push_back(bugDetail); // Store bug type, ID, and status
                     isCellEmpty = false;
                 }
             }
+
 
             // Display bugs in the cell
             if (!isCellEmpty)

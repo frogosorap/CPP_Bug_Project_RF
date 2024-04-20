@@ -89,6 +89,14 @@ build CMakeFiles/CPP_Bug_Project_RF.dir/sources/Board.cpp.obj: CXX_COMPILER__CPP
   OBJECT_DIR = CMakeFiles\CPP_Bug_Project_RF.dir
   OBJECT_FILE_DIR = CMakeFiles\CPP_Bug_Project_RF.dir\sources
 
+build CMakeFiles/CPP_Bug_Project_RF.dir/sources/Knight.cpp.obj: CXX_COMPILER__CPP_Bug_Project_RF_unscanned_Debug C$:/Users/Raphael$ Frogoso/OneDrive$ -$ Dundalk$ Institute$ of$ Technology/SD2a/Semester$ 2/C++/CPP_Bug_Project_RF/sources/Knight.cpp || cmake_object_order_depends_target_CPP_Bug_Project_RF
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\CPP_Bug_Project_RF.dir\sources\Knight.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\CPP_Bug_Project_RF.dir
+  OBJECT_FILE_DIR = CMakeFiles\CPP_Bug_Project_RF.dir\sources
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CPP_Bug_Project_RF
@@ -97,7 +105,7 @@ build CMakeFiles/CPP_Bug_Project_RF.dir/sources/Board.cpp.obj: CXX_COMPILER__CPP
 #############################################
 # Link the executable CPP_Bug_Project_RF.exe
 
-build CPP_Bug_Project_RF.exe: CXX_EXECUTABLE_LINKER__CPP_Bug_Project_RF_Debug CMakeFiles/CPP_Bug_Project_RF.dir/main.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Bug.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Crawler.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Hopper.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Board.cpp.obj | C$:/SFML-2.6.1/lib/libsfml-system-s-d.a C$:/SFML-2.6.1/lib/libsfml-window-s-d.a C$:/SFML-2.6.1/lib/libsfml-graphics-s-d.a C$:/SFML-2.6.1/lib/libsfml-audio-s-d.a C$:/SFML-2.6.1/lib/libsfml-window-s-d.a C$:/SFML-2.6.1/lib/libfreetype.a C$:/SFML-2.6.1/lib/libsfml-system-s-d.a C$:/SFML-2.6.1/lib/libopenal32.a C$:/SFML-2.6.1/lib/libvorbisfile.a C$:/SFML-2.6.1/lib/libvorbisenc.a C$:/SFML-2.6.1/lib/libvorbis.a C$:/SFML-2.6.1/lib/libogg.a C$:/SFML-2.6.1/lib/libFLAC.a
+build CPP_Bug_Project_RF.exe: CXX_EXECUTABLE_LINKER__CPP_Bug_Project_RF_Debug CMakeFiles/CPP_Bug_Project_RF.dir/main.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Bug.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Crawler.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Hopper.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Board.cpp.obj CMakeFiles/CPP_Bug_Project_RF.dir/sources/Knight.cpp.obj | C$:/SFML-2.6.1/lib/libsfml-system-s-d.a C$:/SFML-2.6.1/lib/libsfml-window-s-d.a C$:/SFML-2.6.1/lib/libsfml-graphics-s-d.a C$:/SFML-2.6.1/lib/libsfml-audio-s-d.a C$:/SFML-2.6.1/lib/libsfml-window-s-d.a C$:/SFML-2.6.1/lib/libfreetype.a C$:/SFML-2.6.1/lib/libsfml-system-s-d.a C$:/SFML-2.6.1/lib/libopenal32.a C$:/SFML-2.6.1/lib/libvorbisfile.a C$:/SFML-2.6.1/lib/libvorbisenc.a C$:/SFML-2.6.1/lib/libvorbis.a C$:/SFML-2.6.1/lib/libogg.a C$:/SFML-2.6.1/lib/libFLAC.a
   FLAGS = -g
   LINK_LIBRARIES = C:/SFML-2.6.1/lib/libsfml-system-s-d.a  C:/SFML-2.6.1/lib/libsfml-window-s-d.a  C:/SFML-2.6.1/lib/libsfml-graphics-s-d.a  C:/SFML-2.6.1/lib/libsfml-audio-s-d.a  C:/SFML-2.6.1/lib/libsfml-window-s-d.a  -lOpenGL32  -lgdi32  C:/SFML-2.6.1/lib/libfreetype.a  C:/SFML-2.6.1/lib/libsfml-system-s-d.a  -lwinmm  C:/SFML-2.6.1/lib/libopenal32.a  C:/SFML-2.6.1/lib/libvorbisfile.a  C:/SFML-2.6.1/lib/libvorbisenc.a  C:/SFML-2.6.1/lib/libvorbis.a  C:/SFML-2.6.1/lib/libogg.a  C:/SFML-2.6.1/lib/libFLAC.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CPP_Bug_Project_RF.dir

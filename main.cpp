@@ -2,6 +2,7 @@
 #include "headers/Crawler.h"
 #include "headers/Hopper.h"
 #include "headers/Board.h"
+#include "headers/Knight.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -117,6 +118,11 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
         if (tokens.at(0) == "C") {
             auto *c = new Crawler(id, x, y, d, size);
             bugVec.push_back(c);
+        }
+        else if(tokens.at(0) == "K")
+        {
+            auto *k = new Knight(id, x, y, d, size);
+            bugVec.push_back(k);
         }
         else {
             int hopLength = stoi(tokens.at(6));

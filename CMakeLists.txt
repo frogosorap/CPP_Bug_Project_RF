@@ -12,7 +12,9 @@ add_executable(CPP_Bug_Project_RF main.cpp
         sources/Hopper.cpp
         headers/Hopper.h
         sources/Board.cpp
-        headers/Board.h)
+        headers/Board.h
+        sources/Knight.cpp
+        headers/Knight.h)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML-2.6.1/lib/cmake/SFML)

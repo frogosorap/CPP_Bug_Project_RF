@@ -14,6 +14,7 @@ using namespace sf;
 
 struct tile
 {
+    sf::Sprite sprite;
     CircleShape shape;
     bool isSelected = false;
     Color color;
@@ -41,14 +42,31 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
 
 void findBugByGivenID(const vector<Bug *> &bugVec);
 
-void runGame(Board *board, vector<Bug *> &bugVec);
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture);
 
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec);
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture);
 
 
 int main() {
 
-    cout << "Hello, World!" << endl;
+    Texture crawlerTexture;
+    if (!crawlerTexture.loadFromFile("images/crawler.png")) {
+        cerr << "Failed to load crawler texture sprite" << endl;
+        return EXIT_FAILURE;
+    }
+
+    Texture hopperTexture;
+    if (!hopperTexture.loadFromFile("images/hopper.png")) {
+        cerr << "Failed to load hopper texture sprite" << endl;
+        return EXIT_FAILURE;
+    }
+
+    Texture knightTexture;
+    if (!knightTexture.loadFromFile("images/knight.png")) {
+        cerr << "Failed to load knight texture sprite" << endl;
+        return EXIT_FAILURE;
+    }
+
     vector<Bug *> bug_vector;
     auto *board = new Board();
     readFile(bug_vector, "bugs.txt", board);
@@ -97,7 +115,7 @@ int main() {
                 option = 0;
                 break;
             case(9):
-                runGame(board, bug_vector);
+                runGame(board, bug_vector,crawlerTexture,hopperTexture,knightTexture);
                 break;
         }
     }
@@ -202,35 +220,50 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
     cout << "Bug " << input << " does not exist." <<endl;
 }
 
+//
 // https://chat.openai.com/ <-- Used ChatGPT to debug why my code isn't displaying the board each time I tapped.
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec)
+// https://www.youtube.com/watch?v=aEDP7uhaiJc&ab_channel=Zenva <-- I used to guide me with Texture and Sprites
+// https://www.sfml-dev.org/documentation/2.6.1/classsf_1_1Sprite.php <-- Notes I referred to from class to understand sprite in SFML
+
+// https://discuss.cocos2d-x.org/t/how-would-you-properly-size-sprites/49614  <-- Scaling sprites according to given size
+// https://discuss.cocos2d-x.org/t/sprite-scaling-problems-c/24813 <-- Debugging related issues regarding sprites going out of the frame
+
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture)
 {
+
+    // Get the size of the tiles
+    float tileSize = 50.0f;
+
     for (Bug *bug : bugVec)
     {
         // Creates tile for each individual bug
         tile *t = new tile();
-        t->shape.setPosition(bug->getPosition().getX() * 50+5, bug->getPosition().getY() * 50+5); // Assuming each bug occupies one tile
-        // Set the color of the tile based on the bug type
+        t->sprite.setPosition(bug->getPosition().getX() * tileSize , bug->getPosition().getY() * tileSize);
+
+        // Set texture image from "images" folder based on the type of bug
         if (dynamic_cast<Crawler*>(bug))
         {
-            t->color = Color::Green;
+            t->sprite.setTexture(crawlerTexture);
         }
         else if (dynamic_cast<Hopper*>(bug))
         {
-            t->color = Color::Blue;
+            t->sprite.setTexture(hopperTexture);
         }
         else if (dynamic_cast<Knight*>(bug))
         {
-            t->color = Color::Red;
+            t->sprite.setTexture(knightTexture);
         }
-        t->shape.setFillColor(t->color);
+
+        // Scale the sprite to fit the tile size while it's aspect ratio
+        float scaleFactor = tileSize / max(t->sprite.getLocalBounds().width, t->sprite.getLocalBounds().height);
+        t->sprite.setScale(scaleFactor, scaleFactor);
+
         tiles.push_back(t);
     }
 }
 
 
-void runGame(Board *board, vector<Bug *> &bugVec)
-{
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
     vector<RectangleShape> bg;
     for (int r = 0; r < 10; r++)
@@ -247,8 +280,8 @@ void runGame(Board *board, vector<Bug *> &bugVec)
 
     vector<tile*> tiles;
 
-    // Create tiles for bugs
-    createTile(tiles, bugVec);
+    // Create tiles for bugs and declares the parameter of passed images
+    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture);
 
     window.setFramerateLimit(40);
     while (window.isOpen()) {
@@ -262,11 +295,11 @@ void runGame(Board *board, vector<Bug *> &bugVec)
                 // Check if the left mouse button is pressed
                 if (event.mouseButton.button == Mouse::Left)
                 {
-                    // Call the tap() function of the Board class
+                    // Calls the tap method
                     board->tap();
-                    // Clear tiles and recreate them based on the updated bug vector
+                    // Clear tiles then update the board vector with the new bug vector after calling tap again
                     tiles.clear();
-                    createTile(tiles, bugVec);
+                    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture);
                 }
             }
         }
@@ -278,7 +311,7 @@ void runGame(Board *board, vector<Bug *> &bugVec)
         }
         // Draw tiles for bugs
         for (tile* t : tiles) {
-            window.draw(t->shape);
+            window.draw(t->sprite);
         }
         window.display();
     }

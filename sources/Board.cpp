@@ -349,7 +349,7 @@ void Board::runSim()
                 aliveCount++;
             }
         }
-//        this_thread::sleep_for(chrono::milliseconds(1000));
+        this_thread::sleep_for(chrono::milliseconds(1000));
     }
 
     // Display the winner when only one bug is left

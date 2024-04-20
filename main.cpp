@@ -10,10 +10,41 @@
 #include <SFML/Graphics.hpp>
 
 using namespace std;
+using namespace sf;
+
+struct tile
+{
+    CircleShape shape;
+    bool isSelected = false;
+    Color color;
+    tile() : color(Color::White) // default color is white
+    {
+        shape.setRadius(20);
+    }
+
+    bool contains(int x, int y)
+    {
+        int shapeX = ((int)shape.getPosition().x / 50) * 50;
+        int shapeY = ((int)shape.getPosition().y / 50) * 50;
+        return x == shapeX && y == shapeY;
+    }
+
+    sf::Vector2f getPosition()
+    {
+        int shapeX = ((int)shape.getPosition().x / 50) * 50;
+        int shapeY = ((int)shape.getPosition().y / 50) * 50;
+        return Vector2f(shapeX, shapeY);
+    }
+};
 
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
 
 void findBugByGivenID(const vector<Bug *> &bugVec);
+
+void runGame(Board *board, vector<Bug *> &bugVec);
+
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec);
+
 
 int main() {
 
@@ -64,6 +95,9 @@ int main() {
             case(8):
                 board -> outputFile();
                 option = 0;
+                break;
+            case(9):
+                runGame(board, bug_vector);
                 break;
         }
     }
@@ -166,4 +200,86 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
         it++; // iterates through the next element
     }
     cout << "Bug " << input << " does not exist." <<endl;
+}
+
+// https://chat.openai.com/ <-- Used ChatGPT to debug why my code isn't displaying the board each time I tapped.
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec)
+{
+    for (Bug *bug : bugVec)
+    {
+        // Creates tile for each individual bug
+        tile *t = new tile();
+        t->shape.setPosition(bug->getPosition().getX() * 50+5, bug->getPosition().getY() * 50+5); // Assuming each bug occupies one tile
+        // Set the color of the tile based on the bug type
+        if (dynamic_cast<Crawler*>(bug))
+        {
+            t->color = Color::Green;
+        }
+        else if (dynamic_cast<Hopper*>(bug))
+        {
+            t->color = Color::Blue;
+        }
+        else if (dynamic_cast<Knight*>(bug))
+        {
+            t->color = Color::Red;
+        }
+        t->shape.setFillColor(t->color);
+        tiles.push_back(t);
+    }
+}
+
+
+void runGame(Board *board, vector<Bug *> &bugVec)
+{
+    RenderWindow window(VideoMode(500, 500), "Bug Game");
+    vector<RectangleShape> bg;
+    for (int r = 0; r < 10; r++)
+    {
+        for (int c = 0; c < 10; c++)
+        {
+            RectangleShape shape;
+            shape.setPosition(r * 50, c * 50);
+            shape.setSize(Vector2f(50, 50));
+            shape.setFillColor((r + c) % 2 == 0 ? Color(150, 75, 20) : Color(100, 20, 5));
+            bg.push_back(shape);
+        }
+    }
+
+    vector<tile*> tiles;
+
+    // Create tiles for bugs
+    createTile(tiles, bugVec);
+
+    window.setFramerateLimit(40);
+    while (window.isOpen()) {
+        Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == Event::Closed)
+                window.close();
+            if (event.type == Event::MouseButtonPressed)
+            {
+                // Check if the left mouse button is pressed
+                if (event.mouseButton.button == Mouse::Left)
+                {
+                    // Call the tap() function of the Board class
+                    board->tap();
+                    // Clear tiles and recreate them based on the updated bug vector
+                    tiles.clear();
+                    createTile(tiles, bugVec);
+                }
+            }
+        }
+
+        window.clear();
+        for (RectangleShape &s : bg)
+        {
+            window.draw(s);
+        }
+        // Draw tiles for bugs
+        for (tile* t : tiles) {
+            window.draw(t->shape);
+        }
+        window.display();
+    }
 }

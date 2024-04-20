@@ -8,6 +8,7 @@
 #include <sstream>
 #include <fstream>
 #include <SFML/Graphics.hpp>
+#include "headers/SuperBug.h"
 
 using namespace std;
 using namespace sf;
@@ -42,9 +43,9 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
 
 void findBugByGivenID(const vector<Bug *> &bugVec);
 
-void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture);
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture);
 
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture);
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture);
 
 
 int main() {
@@ -64,6 +65,12 @@ int main() {
     Texture knightTexture;
     if (!knightTexture.loadFromFile("images/knight.png")) {
         cerr << "Failed to load knight texture sprite" << endl;
+        return EXIT_FAILURE;
+    }
+
+    Texture superTexture;
+    if (!superTexture.loadFromFile("images/super.png")) {
+        cerr << "Failed to load super texture sprite" << endl;
         return EXIT_FAILURE;
     }
 
@@ -115,7 +122,7 @@ int main() {
                 option = 0;
                 break;
             case(9):
-                runGame(board, bug_vector,crawlerTexture,hopperTexture,knightTexture);
+                runGame(board, bug_vector,crawlerTexture,hopperTexture,knightTexture, superTexture);
                 break;
         }
     }
@@ -176,6 +183,11 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             auto *k = new Knight(id, x, y, d, size);
             bugVec.push_back(k);
         }
+        else if(tokens.at(0) == "B")
+        {
+            auto *k = new SuperBug(id, x, y, d, size);
+            bugVec.push_back(k);
+        }
         else {
             int hopLength = stoi(tokens.at(6));
             auto *h = new Hopper(id, x, y, d, size, hopLength);
@@ -228,7 +240,7 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
 // https://discuss.cocos2d-x.org/t/how-would-you-properly-size-sprites/49614  <-- Scaling sprites according to given size
 // https://discuss.cocos2d-x.org/t/sprite-scaling-problems-c/24813 <-- Debugging related issues regarding sprites going out of the frame
 
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture)
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture)
 {
 
     // Get the size of the tiles
@@ -253,6 +265,10 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
         {
             t->sprite.setTexture(knightTexture);
         }
+        else if (dynamic_cast<SuperBug*>(bug))
+        {
+            t->sprite.setTexture(superTexture);
+        }
 
         // Scale the sprite to fit the tile size while it's aspect ratio
         float scaleFactor = tileSize / max(t->sprite.getLocalBounds().width, t->sprite.getLocalBounds().height);
@@ -263,7 +279,7 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 }
 
 
-void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture) {
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
     vector<RectangleShape> bg;
     for (int r = 0; r < 10; r++)
@@ -281,7 +297,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
     vector<tile*> tiles;
 
     // Create tiles for bugs and declares the parameter of passed images
-    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture);
+    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture);
 
     window.setFramerateLimit(40);
     while (window.isOpen()) {
@@ -299,7 +315,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     board->tap();
                     // Clear tiles then update the board vector with the new bug vector after calling tap again
                     tiles.clear();
-                    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture);
+                    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture);
                 }
             }
         }

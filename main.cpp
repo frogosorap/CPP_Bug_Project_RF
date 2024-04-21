@@ -43,9 +43,9 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
 
 void findBugByGivenID(const vector<Bug *> &bugVec);
 
-void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture);
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture);
 
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture);
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture);
 
 
 int main() {
@@ -74,14 +74,25 @@ int main() {
         return EXIT_FAILURE;
     }
 
+    Texture deadTexture;
+    if (!deadTexture.loadFromFile("images/dead.png")) {
+        cerr << "Failed to load dead texture sprite" << endl;
+        return EXIT_FAILURE;
+    }
+
     vector<Bug *> bug_vector;
     auto *board = new Board();
     readFile(bug_vector, "bugs.txt", board);
 
+    cout << "\n\n=========================================" << endl;
+    cout << "======    WELCOME TO BUGFIGHT    ========" << endl;
+    cout << "=========================================" << endl;
 
     int option = -1;
     while (option != 0) {
-        cout << "\n=======================================" << endl;
+
+        cout<<endl;
+        cout << "=========================================" << endl;
         cout << "= 1. Initialise bug Board               =" << endl;
         cout << "= 2. Display all Bugs                   =" << endl;
         cout << "= 3. Find a Bug                         =" << endl;
@@ -90,9 +101,12 @@ int main() {
         cout << "= 6. Display All Cells                  =" << endl;
         cout << "= 7. Run Simulation                     =" << endl;
         cout << "= 8. Exit                               =" << endl;
+        cout << "= 9. Open GUI                           =" << endl;
         cout << "=========================================" << endl;
 
+        cout <<"\nPlease enter your choice: ";
         cin >> option;
+        cout<<endl;
 
         switch (option) {
             case (1):
@@ -122,7 +136,7 @@ int main() {
                 option = 0;
                 break;
             case(9):
-                runGame(board, bug_vector,crawlerTexture,hopperTexture,knightTexture, superTexture);
+                runGame(board, bug_vector,crawlerTexture,hopperTexture,knightTexture, superTexture, deadTexture);
                 break;
         }
     }
@@ -212,11 +226,15 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
 
 void findBugByGivenID(const vector<Bug *> &bugVec)
 {
+    cout << "=========================================" << endl;
+    cout << "========   FIND BUG IN BOARD   ==========" << endl;
+    cout << "=========================================\n" << endl;
     cout << "Enter ID of Bug to search: ";
+
     int input;
     bool found = false;
     cin >> input;
-
+    cout<<endl;
     auto it = bugVec.begin(); // initialize it to the beginning of the bugVec
 
     // iterator loops through all elements of the bugVec vector until the iterator it reaches the end of the vector
@@ -225,11 +243,13 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
         if (b->getID() == input) {
             cout << "Bug " << input << " found." <<endl;
             b->displayBugDetails();
+            cout<<endl;
             return;
         }
         it++; // iterates through the next element
     }
     cout << "Bug " << input << " does not exist." <<endl;
+    cout<<endl;
 }
 
 //
@@ -240,7 +260,7 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
 // https://discuss.cocos2d-x.org/t/how-would-you-properly-size-sprites/49614  <-- Scaling sprites according to given size
 // https://discuss.cocos2d-x.org/t/sprite-scaling-problems-c/24813 <-- Debugging related issues regarding sprites going out of the frame
 
-void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture)
+void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture)
 {
 
     // Get the size of the tiles
@@ -252,22 +272,31 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
         tile *t = new tile();
         t->sprite.setPosition(bug->getPosition().getX() * tileSize , bug->getPosition().getY() * tileSize);
 
-        // Set texture image from "images" folder based on the type of bug
-        if (dynamic_cast<Crawler*>(bug))
+        // Check if the bug is alive or dead
+        if (bug->isAlive)
         {
-            t->sprite.setTexture(crawlerTexture);
+            // Set texture image from "images" folder based on the type of bug
+            if (dynamic_cast<Crawler *>(bug))
+            {
+                t->sprite.setTexture(crawlerTexture);
+            }
+            else if (dynamic_cast<Hopper *>(bug))
+            {
+                t->sprite.setTexture(hopperTexture);
+            }
+            else if (dynamic_cast<Knight *>(bug))
+            {
+                t->sprite.setTexture(knightTexture);
+            }
+            else if (dynamic_cast<SuperBug *>(bug))
+            {
+                t->sprite.setTexture(superTexture);
+            }
         }
-        else if (dynamic_cast<Hopper*>(bug))
+        else
         {
-            t->sprite.setTexture(hopperTexture);
-        }
-        else if (dynamic_cast<Knight*>(bug))
-        {
-            t->sprite.setTexture(knightTexture);
-        }
-        else if (dynamic_cast<SuperBug*>(bug))
-        {
-            t->sprite.setTexture(superTexture);
+            // Bug is dead, set dead bug texture
+            t->sprite.setTexture(deadTexture);
         }
 
         // Scale the sprite to fit the tile size while it's aspect ratio
@@ -280,7 +309,7 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 
 
 // https://stackoverflow.com/questions/35241556/sfml-keyboard-events <-- If key is pressed event for arrow keys
-void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture) {
+void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
     vector<RectangleShape> bg;
     for (int r = 0; r < 10; r++)
@@ -290,7 +319,8 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
             RectangleShape shape;
             shape.setPosition(r * 50, c * 50);
             shape.setSize(Vector2f(50, 50));
-            shape.setFillColor((r + c) % 2 == 0 ? Color(150, 75, 20) : Color(100, 20, 5));
+            shape.setFillColor((r + c) % 2 == 0 ? Color(150, 200, 150) : Color(100, 150, 100));
+//            shape.setFillColor((r + c) % 2 == 0 ? Color(144, 238, 144) : Color(124, 205, 124));
             bg.push_back(shape);
         }
     }
@@ -298,7 +328,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
     vector<tile*> tiles;
 
     // Create tiles for bugs and declares the parameter of passed images
-    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture);
+    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
 
     window.setFramerateLimit(40);
     while (window.isOpen()) {
@@ -317,7 +347,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     board->tap();
                     // Clear tiles then update the board vector with the new bug vector after calling tap again
                     tiles.clear();
-                    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture);
+                    createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                 }
             }
             if (event.type == Event::KeyPressed)

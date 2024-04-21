@@ -35,6 +35,9 @@ Board::Board()
 
 void Board::initializeBugBoard(vector<Bug*> &bugsVec)
 {
+    cout << "=========================================" << endl;
+    cout << "======   BUG BOARD INITIALIZED   ========" << endl;
+    cout << "=========================================" << endl;
     // Clear any existing bugs on the board
     for (auto& row : boardVec10) {
         for (auto& cell : row) {
@@ -68,11 +71,13 @@ void Board::initializeBugBoard(vector<Bug*> &bugsVec)
 
 void Board::displayAllBugs()
 {
+    cout<< "================================= Display All Bugs =================================" << endl;
     for (int i = 0; i < bugsVector.size(); i++)
     {
         cout << "\n";
         bugsVector.at(i) -> displayBugDetails();
     }
+    cout<< "\n\n====================================================================================\n" << endl;
 }
 
 
@@ -186,9 +191,13 @@ void Board::moveBug()
 
 void Board::lifeHistory()
 {
+    cout << "=========================================" << endl;
+    cout << "========   BUG LIFE HISTORY    ==========" << endl;
+    cout << "=========================================\n" << endl;
     for (Bug *bug: bugsVector) {
         cout << getLifeHistory(bug) << endl;
     }
+    cout<<endl;
 }
 
 string Board::getLifeHistory(Bug *bug)
@@ -270,6 +279,9 @@ void Board::BugBoard()
 //https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
 void Board::displayAllCells()
 {
+    cout << "=========================================" << endl;
+    cout << "========   DISPLAY ALL CELLS   ==========" << endl;
+    cout << "=========================================\n" << endl;
     // Iterate over each cell
     for (int i = 0; i < 10; ++i)
     {

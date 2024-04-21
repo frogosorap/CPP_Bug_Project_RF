@@ -115,3 +115,4 @@ void Bug::setEatenBy(int id) {
     eatenBy = id;
 }
 
+

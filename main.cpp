@@ -279,6 +279,7 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 }
 
 
+// https://stackoverflow.com/questions/35241556/sfml-keyboard-events <-- If key is pressed event for arrow keys
 void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
     vector<RectangleShape> bg;
@@ -302,6 +303,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
     window.setFramerateLimit(40);
     while (window.isOpen()) {
         Event event;
+        int c = 0;
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)
@@ -318,6 +320,28 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture);
                 }
             }
+            if (event.type == Event::KeyPressed)
+            {
+                switch (event.key.code)
+                {
+                    case Keyboard::Up:
+                        cout << endl << "Up" << endl;
+                        break;
+                    case Keyboard::Down:
+                        cout << endl << "Down" << endl;
+                        break;
+                    case Keyboard::Left:
+                        cout << endl << "Left" << endl;
+                        break;
+                    case Keyboard::Right:
+                        cout << endl << "Right" << endl;
+                        break;
+                    default:
+                        cout << endl << "Invalid key" << endl;
+                        break;
+                }
+            }
+
         }
 
         window.clear();

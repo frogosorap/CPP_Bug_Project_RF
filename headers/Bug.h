@@ -85,6 +85,7 @@ public:
     const list<Pair> &getPathHistory() const;
     void updatePathHistory();
 
+    void moveUp();
 };
 
 

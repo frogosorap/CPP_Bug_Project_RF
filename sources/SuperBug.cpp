@@ -71,9 +71,33 @@ void SuperBug::move() {
     }
 }
 
+void SuperBug::moveUp() {
+    Pair newPos = getPosition();
+    newPos.setY(newPos.getY() - 1); // One box up
+    setPosition(newPos);
+}
+
+void SuperBug::moveDown() {
+    Pair newPos = getPosition();
+    newPos.setY(newPos.getY() + 1); // One box down
+    setPosition(newPos);
+}
+
+void SuperBug::moveLeft() {
+    Pair newPos = getPosition();
+    newPos.setX(newPos.getX() - 1); // One box left
+    setPosition(newPos);
+}
+
+void SuperBug::moveRight() {
+    Pair newPos = getPosition();
+    newPos.setX(newPos.getX() + 1); // One box right
+    setPosition(newPos);
+}
+
 void SuperBug::displayBugDetails() {
 
-    cout << "Crawler, ID: " + to_string(id) + ", Position (" +to_string(position.getX()) + ", "
+    cout << "Super Bug, ID: " + to_string(id) + ", Position (" +to_string(position.getX()) + ", "
             +to_string(position.getY()) + ")" + ", Size: " + to_string(size) + ", Direction: " +
             directionString(direction);
     if (isAlive)

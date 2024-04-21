@@ -14,6 +14,14 @@ public:
     void move() override;
 
     void displayBugDetails() override;
+
+    void moveUp();
+
+    void moveDown();
+
+    void moveLeft();
+
+    void moveRight();
 };
 
 #endif //CPP_BUG_PROJECT_RF_SUPERBUG_H

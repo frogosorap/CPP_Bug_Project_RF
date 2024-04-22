@@ -15,30 +15,12 @@
 using namespace std;
 using namespace sf;
 
+// Struct for declaring the sprite tile that will be inside of my bug board vector
 struct tile
 {
-    sf::Sprite sprite;
+    Sprite sprite;
     CircleShape shape;
-    bool isSelected = false;
-    Color color;
-    tile() : color(Color::White) // default color is white
-    {
-        shape.setRadius(20);
-    }
 
-    bool contains(int x, int y)
-    {
-        int shapeX = ((int)shape.getPosition().x / 50) * 50;
-        int shapeY = ((int)shape.getPosition().y / 50) * 50;
-        return x == shapeX && y == shapeY;
-    }
-
-    sf::Vector2f getPosition()
-    {
-        int shapeX = ((int)shape.getPosition().x / 50) * 50;
-        int shapeY = ((int)shape.getPosition().y / 50) * 50;
-        return Vector2f(shapeX, shapeY);
-    }
 };
 
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board);
@@ -52,6 +34,11 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 
 int main() {
 
+
+// https://www.youtube.com/watch?v=aEDP7uhaiJc&ab_channel=Zenva <-- I used to guide me with Texture and Sprites
+// https://www.sfml-dev.org/documentation/2.6.1/classsf_1_1Sprite.php <-- Notes I referred to from class to understand sprite in SFML
+
+    // Pre-declaring textures for each of my bug type that can be passed as a parameter to be accessed.
     Texture crawlerTexture;
     if (!crawlerTexture.loadFromFile("images/crawler.png")) {
         cerr << "Failed to load crawler texture sprite" << endl;
@@ -82,8 +69,14 @@ int main() {
         return EXIT_FAILURE;
     }
 
+    // Specified in brief
     vector<Bug *> bug_vector;
+
+    // Initializes a new instance of the board class using dynamic memory. It creates a new object
+    // called board and it points to the object address of board
     auto *board = new Board();
+
+    // Read file located in bugs.txt and prints it to show that it is reading.
     readFile(bug_vector, "bugs.txt", board);
 
     cout << "\n\n=========================================" << endl;
@@ -146,13 +139,15 @@ int main() {
     delete board; // Freeing memory allocated for the board
 }
 
-//https://stackoverflow.com/questions/65294610/c-project-cant-read-file-when-building-with-cmake <--- Reading bugs.txt from Cmake file
+// https://stackoverflow.com/questions/65294610/c-project-cant-read-file-when-building-with-cmake <--- Reading bugs.txt from Cmake file
+//
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
 {
     string filePath = "cmake-build-debug/" + fileName; // Adjust the path here
     ifstream inputFile(filePath);
-    if (!inputFile.is_open()) {
-        cerr << "Error: Problem with file. " << fileName << endl;
+    if (!inputFile.is_open())
+    {
+        cerr << "Error: Problem with reading the file. " << fileName << endl;
         return;
     }
 //    ifstream inputFile(fileName);
@@ -171,6 +166,7 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             tokens.push_back(token);
         }
 
+        // Converts and parses id, x, y, dir, size, values from a string vector tokens.
         int id = stoi(tokens.at(1));
         int x = stoi(tokens.at(2));
         int y = stoi(tokens.at(3));
@@ -180,17 +176,29 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
 //        bugType = tokens[0][0];
 
         Direction d;
-        if (dir == 1) {
+
+        // If read in direction from file is either or, set to this.
+        if (dir == 1)
+        {
             d = Direction::NORTH;
-        } else if (dir == 2) {
+        }
+        else if (dir == 2)
+        {
             d = Direction::EAST;
-        } else if (dir == 3) {
+        }
+        else if (dir == 3)
+        {
             d = Direction::SOUTH;
-        } else {
+        }
+        else
+        {
             d = Direction::WEST;
         }
 
-        if (tokens.at(0) == "C") {
+        // Checks if the token at index 0 or the very first data in the file is of specific type of bug
+        // Creates new instance of that type bug and adds it to the vector by using push_back method
+        if (tokens.at(0) == "C")
+        {
             auto *c = new Crawler(id, x, y, d, size);
             bugVec.push_back(c);
         }
@@ -204,11 +212,14 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             auto *k = new SuperBug(id, x, y, d, size);
             bugVec.push_back(k);
         }
-        else {
+        else
+        {
             int hopLength = stoi(tokens.at(6));
             auto *h = new Hopper(id, x, y, d, size, hopLength);
             bugVec.push_back(h);
         }
+
+// Possible code I could use?
 //        switch(bugType)
 //        {
 //            case 'C':
@@ -237,27 +248,28 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
     bool found = false;
     cin >> input;
     cout<<endl;
-    auto it = bugVec.begin(); // initialize it to the beginning of the bugVec
+    auto it = bugVec.begin(); // Initialize it to the beginning of the bugVec
 
-    // iterator loops through all elements of the bugVec vector until the iterator it reaches the end of the vector
+    // Iterator loops through all elements of the bugVec vector until the iterator it reaches the end of the vector
     while (it != bugVec.end()) {
-        Bug *b = *it; // dereference the iterator it to get the pointer to the current Bug object
-        if (b->getID() == input) {
+        Bug *b = *it; // Dereference the iterator it to get the pointer to the current Bug object
+        if (b->getID() == input)
+        {
             cout << "Bug " << input << " found." <<endl;
             b->displayBugDetails();
             cout<<endl;
             return;
         }
-        it++; // iterates through the next element
+        it++; // Iterates through the next element if does not match
     }
     cout << "Bug " << input << " does not exist." <<endl;
     cout<<endl;
 }
 
-//
+// Most of the SFML code I have used in this project was mainly from Dermot Logue's notes through the class exercises and samples.
+// It was all done with the help of some of the references I've used below to achieve what I needed.
+
 // https://chat.openai.com/ <-- Used ChatGPT to debug why my code isn't displaying the board each time I tapped.
-// https://www.youtube.com/watch?v=aEDP7uhaiJc&ab_channel=Zenva <-- I used to guide me with Texture and Sprites
-// https://www.sfml-dev.org/documentation/2.6.1/classsf_1_1Sprite.php <-- Notes I referred to from class to understand sprite in SFML
 
 // https://discuss.cocos2d-x.org/t/how-would-you-properly-size-sprites/49614  <-- Scaling sprites according to given size
 // https://discuss.cocos2d-x.org/t/sprite-scaling-problems-c/24813 <-- Debugging related issues regarding sprites going out of the frame
@@ -312,6 +324,7 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 
 // https://stackoverflow.com/questions/35241556/sfml-keyboard-events <-- If key is pressed event for arrow keys
 // https://www.youtube.com/watch?v=m7TQTqMZz1c&ab_channel=StickerGiant <-- Searching for fonts in local windows
+// https://en.sfml-dev.org/forums/index.php?topic=6534.0 <-- closing window
 
 void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
@@ -354,6 +367,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                 }
             }
+
             if (event.type == Event::KeyPressed)
             {
                 switch (event.key.code)
@@ -367,6 +381,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                             }
                         }
                         board -> tap();
+                        // Clear the tile so that it will be updated with the new sets of tiles with the new bug positions
                         tiles.clear();
                         createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                         break;
@@ -422,11 +437,16 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     winningBug = bug;
                 }
             }
-            // If only one bug is left alive, display the winning bug's ID
+            // If only one bug is left alive, display the winning bug's ID in title
             if (aliveBugCount == 1)
             {
+                // Sets the new title name of last Bug alive
                 window.setTitle("Bug " + to_string(winningBug->getID()) + " won!");
+
+                // Will set a 3 second timer before the window closes right after a bug wins
                 this_thread::sleep_for(chrono::milliseconds(3000));
+
+                // Closes the window, so if a user wishes to play again, they will need to exit and run the program again
                 window.close();
             }
             else
@@ -453,7 +473,8 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
             window.draw(s);
         }
         // Draw tiles for bugs
-        for (tile* t : tiles) {
+        for (tile* t : tiles)
+        {
             window.draw(t->sprite);
         }
         window.display();

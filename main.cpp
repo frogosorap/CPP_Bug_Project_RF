@@ -9,6 +9,8 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include "headers/SuperBug.h"
+#include <ctime>
+#include <thread>
 
 using namespace std;
 using namespace sf;
@@ -309,6 +311,8 @@ void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTex
 
 
 // https://stackoverflow.com/questions/35241556/sfml-keyboard-events <-- If key is pressed event for arrow keys
+// https://www.youtube.com/watch?v=m7TQTqMZz1c&ab_channel=StickerGiant <-- Searching for fonts in local windows
+
 void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture) {
     RenderWindow window(VideoMode(500, 500), "Bug Game");
     vector<RectangleShape> bg;
@@ -407,6 +411,39 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                         break;
                 }
             }
+            // Check if only one bug is left alive
+            int aliveBugCount = 0;
+            Bug* winningBug = nullptr;
+            for (Bug* bug : bugVec)
+            {
+                if (bug->isAlive)
+                {
+                    aliveBugCount++;
+                    winningBug = bug;
+                }
+            }
+            // If only one bug is left alive, display the winning bug's ID
+            if (aliveBugCount == 1)
+            {
+                window.setTitle("Bug " + to_string(winningBug->getID()) + " won!");
+                this_thread::sleep_for(chrono::milliseconds(3000));
+                window.close();
+            }
+            else
+            {
+                window.setTitle("Bug Game");  // Reset the window title if no bug has won
+            }
+
+            window.clear();
+            for (RectangleShape &s : bg)
+            {
+                window.draw(s);
+            }
+            // Draw tiles for bugs
+            for (tile* t : tiles) {
+                window.draw(t->sprite);
+            }
+            window.display();
 
         }
 

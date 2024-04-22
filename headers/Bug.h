@@ -45,6 +45,7 @@ class Bug {
     bool isWayBlocked() const;
 private:
     list<Pair> pathHistory;
+    string typeOfBug;
 
 public:
     int id;
@@ -64,6 +65,7 @@ public:
     bool getIsWayBlocked() const;
     const list<Pair> &getPath() const;
     int getEatenBy() const;
+    string getTypeOfBug() const;
 
     // Setters
 
@@ -77,6 +79,7 @@ public:
     void setIsWayBlocked(bool blocked);
     void setPosition(const Pair &position);
     void setEatenBy(int id);
+    void setTypeOfBug(const string& type);
 
     virtual void displayBugDetails()=0;
 

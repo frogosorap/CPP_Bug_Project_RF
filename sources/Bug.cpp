@@ -115,4 +115,10 @@ void Bug::setEatenBy(int id) {
     eatenBy = id;
 }
 
+string Bug::getTypeOfBug() const {
+    return typeOfBug;
+}
 
+void Bug::setTypeOfBug(const string& type) {
+    typeOfBug = type;
+}

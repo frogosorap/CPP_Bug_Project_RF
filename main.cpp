@@ -219,6 +219,27 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             bugVec.push_back(h);
         }
 
+        for (Bug *bug : bugVec)
+        {
+            // Ensures that the bug type is correctly assigned on the bug in the vector
+            if (dynamic_cast<Crawler *>(bug))
+            {
+                bug->setTypeOfBug("Crawler");
+            }
+            else if (dynamic_cast<Hopper *>(bug))
+            {
+                bug->setTypeOfBug("Hopper");
+            }
+            else if (dynamic_cast<Knight *>(bug))
+            {
+                bug->setTypeOfBug("Knight");
+            }
+            else if (dynamic_cast<SuperBug *>(bug))
+            {
+                bug->setTypeOfBug("Super");
+            }
+        }
+
 // Possible code I could use?
 //        switch(bugType)
 //        {
@@ -375,7 +396,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     case Keyboard::Up:
                         for (auto & bug : bugVec)
                         {
-                            if(bug -> getID()==113)
+                            if(bug -> getTypeOfBug()=="Super")
                             {
                                 bug ->setDirection(Direction::NORTH);
                             }
@@ -388,7 +409,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     case Keyboard::Down:
                         for (auto & bug : bugVec)
                         {
-                            if(bug -> getID()==113)
+                            if(bug -> getTypeOfBug()=="Super")
                             {
                                 bug ->setDirection(Direction::SOUTH);
                             }
@@ -400,7 +421,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     case Keyboard::Left:
                         for (auto & bug : bugVec)
                         {
-                            if(bug -> getID()==113)
+                            if(bug -> getTypeOfBug()=="Super")
                             {
                                 bug ->setDirection(Direction::WEST);
                             }
@@ -412,7 +433,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                     case Keyboard::Right:
                         for (auto & bug : bugVec)
                         {
-                            if(bug -> getID()==113)
+                            if(bug -> getTypeOfBug()=="Super")
                             {
                                 bug ->setDirection(Direction::EAST);
                             }
@@ -441,7 +462,7 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
             if (aliveBugCount == 1)
             {
                 // Sets the new title name of last Bug alive
-                window.setTitle("Bug " + to_string(winningBug->getID()) + " won!");
+                window.setTitle(winningBug->getTypeOfBug()+" Bug " + to_string(winningBug->getID()) + " won!");
 
                 // Will set a 3 second timer before the window closes right after a bug wins
                 this_thread::sleep_for(chrono::milliseconds(3000));

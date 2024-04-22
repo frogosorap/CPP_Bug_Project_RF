@@ -23,6 +23,9 @@ Knight::Knight(int id, int x, int y, Direction dir, int size) {
 
 // https://stackoverflow.com/questions/7560114/random-number-c-in-some-range  <--- Random number
 // https://stackoverflow.com/questions/30540078/using-c-rand-to-get-random-directions-up-down-left-right-always-getting <--- static_cast with the use of rand numbers
+// For my new Bug type I have introduced the same method as I did for my crawler, only difference is that each box that my knight bug
+// hops to, it can either go on in any direction, meaning that is completely random and unpredictable.
+
 void Knight::move()
 {
     if(getIsWayBlocked())
@@ -42,7 +45,7 @@ void Knight::move()
         uniform_int_distribution<> dist(0, 3);
         int randDirection = dist(gen);
 
-        // converts the randDirection integer to one of the values of my enum direction
+        // Converts the randDirection integer to one of the values of my enum direction
         setDirection(static_cast<Direction>(randDirection)); // Set a random direction
 
         switch(getDirection())

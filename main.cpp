@@ -140,7 +140,7 @@ int main() {
 }
 
 // https://stackoverflow.com/questions/65294610/c-project-cant-read-file-when-building-with-cmake <--- Reading bugs.txt from Cmake file
-//
+// https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
 void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
 {
     string filePath = "cmake-build-debug/" + fileName; // Adjust the path here
@@ -219,6 +219,7 @@ void readFile(vector<Bug *> &bugVec, const string &fileName,Board *board)
             bugVec.push_back(h);
         }
 
+        // Dynamic cast used for converting a pointer or reference of a base class to a pointer or reference of a derived class within the class
         for (Bug *bug : bugVec)
         {
             // Ensures that the bug type is correctly assigned on the bug in the vector
@@ -294,6 +295,7 @@ void findBugByGivenID(const vector<Bug *> &bugVec)
 
 // https://discuss.cocos2d-x.org/t/how-would-you-properly-size-sprites/49614  <-- Scaling sprites according to given size
 // https://discuss.cocos2d-x.org/t/sprite-scaling-problems-c/24813 <-- Debugging related issues regarding sprites going out of the frame
+// //https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
 
 void createTile(vector<tile*> &tiles, vector<Bug *> &bugVec, Texture& crawlerTexture, Texture& hopperTexture, Texture& knightTexture, Texture& superTexture, Texture& deadTexture)
 {

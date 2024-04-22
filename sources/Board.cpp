@@ -20,7 +20,6 @@ using namespace std;
 
 Board::Board(const vector<Bug *> &bugs){
     bugsVector = bugs;
-
 }
 
 //Board::Board()=default;
@@ -52,7 +51,7 @@ void Board::initializeBugBoard(vector<Bug*> &bugsVec)
         int x = bug->getPosition().getX();
         int y = bug->getPosition().getY();
 
-        // Check if the bug's position is within the board's bounds
+        // Check if the bug's position is within the board's boundaries
         if (x >= 0 && x < 10 && y >= 0 && y < 10)
         {
             // Place the bug onto the board
@@ -72,6 +71,7 @@ void Board::initializeBugBoard(vector<Bug*> &bugsVec)
 void Board::displayAllBugs()
 {
     cout<< "================================= Display All Bugs =================================" << endl;
+    // Loops through each of the bug in the bug vector to display each bug's details
     for (int i = 0; i < bugsVector.size(); i++)
     {
         cout << "\n";
@@ -100,13 +100,14 @@ void Board::fight()
             // Iterate over each cell in the board
             if (boardVec10[i][j] != nullptr)
             {
-                // Check if a bug is in the cell
+                // Check if a bug is in the cell and gets its position
                 Bug *currentBug = boardVec10[i][j];
                 Pair currentPos = currentBug->getPosition();
 
-                // Check if there's another bug in cell
+                // Check if there's another bug in cell, if so we make the two bugs fight
                 for (int k = 0; k < bugsVector.size(); k++)
                 {
+                    // Stores another bug in otherBug to check with cuurentBug
                     Bug *otherBug = bugsVector[k];
 
                     // Check other bugs as current bug cannot fight themselves
@@ -179,6 +180,7 @@ void Board::fight()
 
 void Board::moveBug()
 {
+    // For each of the bug that is currently in the vector, we move all of it according to it's move methodology
     for (int i=0; i<bugsVector.size();i++)
     {
         if(bugsVector[i]->getIsAlive())
@@ -203,10 +205,13 @@ void Board::lifeHistory()
 string Board::getLifeHistory(Bug *bug)
 {
     string bugLifeHistory = "Path Taken by Bug " + to_string(bug->getID()) + ": ";
+
+    // Loop through each constant position of a single bug and get its path history that has been appended to a vector
     for (const auto &pos : bug->getPathHistory())
     {
         bugLifeHistory += "(" + to_string(pos.getX()) + "," + to_string(pos.getY()) + ") ";
     }
+    // If bug is dead then end the string and paste its losing opponent
     if (!bug->getIsAlive())
     {
         bugLifeHistory += "Eaten by Bug " + to_string(bug->getEatenBy());
@@ -214,11 +219,12 @@ string Board::getLifeHistory(Bug *bug)
     return bugLifeHistory;
 }
 
-//https://www.javatpoint.com/cpp-date-and-time <--- Getting local time of computer
-//https://olafurw.com/2018-05-03-strftime-and-fixed-size-buffers/ <--- Formatting strftime so it can be put into string
+// https://www.javatpoint.com/cpp-date-and-time <--- Getting local time of computer
+// https://olafurw.com/2018-05-03-strftime-and-fixed-size-buffers/ <--- Formatting strftime so it can be put into string
+
 void Board::outputFile()
 {
-    time_t now = time(0); // get current date/time with respect to system
+    time_t now = time(0); // Gets current date/time with respect to system
 
     struct tm* timeinfo = localtime(&now);
 
@@ -239,6 +245,7 @@ void Board::outputFile()
 
 
 // Jamie helped me update my bug each time I move as I originally only looked at the board vector and not the bug vector
+// My UI for my command line, not necessarily needed, but I used it to test if all bugs work accordingly
 void Board::BugBoard()
 {
     const int padding = 3;
@@ -254,7 +261,9 @@ void Board::BugBoard()
             bool iscellEmpty = true;
             for ( Bug *bug:bugsVector)
             {
-                if (bug->getPosition().x == i && bug->getPosition().y == j) { //if bug position (x,y) is equal to board tile (i.j) then it has a bug on it so.
+                // If bug position (x,y) is equal to board tile (i.j) then it has a bug on it so.
+                if (bug->getPosition().x == i && bug->getPosition().y == j)
+                {
                     cout.width(padding); // Set the width for alignment
                     // If there's a bug in the cell, display its ID
                     cout << bug->id;
@@ -276,7 +285,8 @@ void Board::BugBoard()
 }
 
 
-//https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
+// https://stackoverflow.com/questions/38279657/c-dynamic-cast-with-inheritance <--- Dynamic cast of inherited bug of different type
+
 void Board::displayAllCells()
 {
     cout << "=========================================" << endl;
@@ -287,15 +297,16 @@ void Board::displayAllCells()
     {
         for (int j = 0; j < 10; ++j)
         {
-            cout << "(" << i << "," << j << "): "; // Display cell coordinates
+            cout << "(" << i << "," << j << "): "; // Displays the cell coordinates
 
             bool isCellEmpty = true;
-            vector<string> bugsInCell; // Store Type of bug and ID in this vector
+            vector<string> bugsInCell; // Stores bug type and ID in this vector
             for (Bug *bug : bugsVector)
             {
                 // Check if there's a bug in the cell
-                if (bug->getPosition().x == i && bug->getPosition().y == j) {
-                    // Identify the bug type and ID
+                if (bug->getPosition().x == i && bug->getPosition().y == j)
+                {
+                    // Identifies the bug type and ID by storing in as a string
                     string bugDetail;
                     if (dynamic_cast<Crawler*>(bug))
                     {
@@ -316,7 +327,7 @@ void Board::displayAllCells()
                         bugDetail += " Dead";
                     }
 
-                    bugsInCell.push_back(bugDetail); // Store bug type, ID, and status
+                    bugsInCell.push_back(bugDetail); // Stores bug type, ID, and status
                     isCellEmpty = false;
                 }
             }
@@ -346,6 +357,7 @@ void Board::displayAllCells()
 }
 
 // https://stackoverflow.com/questions/4184468/sleep-for-milliseconds <--- Sleep time for 1 second
+
 void Board::runSim()
 {
     int aliveCount = bugsVector.size(); // Initialize with the total number of bugs

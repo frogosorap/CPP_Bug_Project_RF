@@ -17,6 +17,7 @@ Hopper::Hopper(int id, int x, int y, Direction dir, int size, int hopLength) {
 }
 
 // https://stackoverflow.com/questions/7560114/random-number-c-in-some-range <--- Random Number
+
 void Hopper::move()
 {
     if (getIsWayBlocked())

@@ -355,16 +355,52 @@ void runGame(Board *board, vector<Bug *> &bugVec, Texture& crawlerTexture, Textu
                 switch (event.key.code)
                 {
                     case Keyboard::Up:
-                        cout << endl << "Up" << endl;
+                        for (auto & bug : bugVec)
+                        {
+                            if(bug -> getID()==113)
+                            {
+                                bug ->setDirection(Direction::NORTH);
+                            }
+                        }
+                        board -> tap();
+                        tiles.clear();
+                        createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                         break;
                     case Keyboard::Down:
-                        cout << endl << "Down" << endl;
+                        for (auto & bug : bugVec)
+                        {
+                            if(bug -> getID()==113)
+                            {
+                                bug ->setDirection(Direction::SOUTH);
+                            }
+                        }
+                        board -> tap();
+                        tiles.clear();
+                        createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                         break;
                     case Keyboard::Left:
-                        cout << endl << "Left" << endl;
+                        for (auto & bug : bugVec)
+                        {
+                            if(bug -> getID()==113)
+                            {
+                                bug ->setDirection(Direction::WEST);
+                            }
+                        }
+                        board -> tap();
+                        tiles.clear();
+                        createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                         break;
                     case Keyboard::Right:
-                        cout << endl << "Right" << endl;
+                        for (auto & bug : bugVec)
+                        {
+                            if(bug -> getID()==113)
+                            {
+                                bug ->setDirection(Direction::EAST);
+                            }
+                        }
+                        board -> tap();
+                        tiles.clear();
+                        createTile(tiles, bugVec, crawlerTexture, hopperTexture, knightTexture, superTexture, deadTexture);
                         break;
                     default:
                         cout << endl << "Invalid key" << endl;
